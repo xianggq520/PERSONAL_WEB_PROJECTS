@@ -1,0 +1,4 @@
+教程地址：https://www.nodebeginner.org/index-zh-cn.html
+
+
+官方的安装指南：https://github.com/joyent/node/wiki/Installation
