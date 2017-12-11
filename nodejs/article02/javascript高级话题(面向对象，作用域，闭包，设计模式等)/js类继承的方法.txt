@@ -1,0 +1,53 @@
+2. js类继承的方法有哪些
+
+参考答案：原型链法，属性复制法和构造器应用法. 另外，由于每个对象可以是一个类，这些方法也可以用于对象类的继承．
+
+代码演示
+1) 原型链法
+
+    function Animal() {
+        this.name = 'animal';
+    }
+    
+    Animal.prototype.sayName = {
+        alert(this.name);
+    };
+
+    function Person() {}
+    Person.prototype = Animal.prototype; // 人继承自动物
+    Person.prototype.constructor = 'Person'; // 更新构造函数为人
+    
+2) 属性复制法
+
+    function Animal() {
+        this.name = 'animal';
+    }
+    
+    Animal.prototype.sayName = {
+        alert(this.name);
+    };
+
+    function Person() {}
+
+    for(prop in Animal.prototype) {
+        Person.prototype[prop] = Animal.prototype[prop];
+    } // 复制动物的所有属性到人量边
+    
+    Person.prototype.constructor = 'Person'; // 更新构造函数为人
+    
+3) 构造器应用法
+
+    function Animal() {
+        this.name = 'animal';
+    }
+    
+    Animal.prototype.sayName = function(){
+        alert(this.name);
+    };
+
+    function Person() {
+        Animal.call(this); // apply, call, bind方法都可以．细微区别，后面会提到．
+    }
+    
+!Person类的原型并没有复制Animal类的，因此还需要单独定义原型方法sayName
+
