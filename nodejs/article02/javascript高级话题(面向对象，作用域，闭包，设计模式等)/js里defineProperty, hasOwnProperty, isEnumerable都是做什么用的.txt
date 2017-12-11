@@ -1,0 +1,9 @@
+9. defineProperty, hasOwnProperty, isEnumerable都是做什么用的？
+
+参考答案：
+Object.defineProperty(obj, prop, descriptor)用来给对象定义属性,有value,writable,configurable,enumerable,set/get等
+
+Object.hasOwnProerty用于检查某一属性是不是存在于对象本身，继承来的父亲的属性不算．
+
+isEnumerable用来检测某一属性是否可遍历，也就是能不能用for..in循环来取到.
+

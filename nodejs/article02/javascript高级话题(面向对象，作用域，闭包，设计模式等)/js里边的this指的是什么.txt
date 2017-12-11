@@ -1,0 +1,14 @@
+5. js里边的this指的是什么?
+
+参考答案: this指的是对象本身，而不是构造函数．
+
+代码演示
+
+    function Person() {
+    }
+    
+    Person.prototype.sayName = function() { alert(this.name); }
+
+    var person1 = new Person();
+    person1.name = 'michaelqin';
+    person1.sayName(); // michaelqin

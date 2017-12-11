@@ -1,0 +1,17 @@
+参考答案：大多数语言里边都是块作作用域，以{}进行限定，js里边不是．js里边叫函数作用域，
+就是一个变量在全函数里有效．比如有个变量p1在函数最后一行定义，第一行也有效，但是值是undefined.
+
+代码演示
+
+    var globalVar = 'global var';
+
+    function test() {
+        alert(globalVar); // undefined, 因为globalVar在本函数内被重定义了，导致全局失效，这里使用函数内的变量值，可是此时还没定义
+        var globalVar = 'overrided var'; //　globalVar在本函数内被重定义
+        alert(globalVar);　// overrided var
+    }
+    
+    alert(globalVar); // global var，使用全局变量
+    
+
+!变量查询、变量声明提前
