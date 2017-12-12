@@ -1,0 +1,30 @@
+1. node的网络模块架构是什么样子的?
+
+参考答案: 
+
+	node全面支持各种网络服务器和客户端，包括tcp, http/https, tcp, udp, dns, tls/ssl等.
+
+2. node是怎样支持https,tls的?
+
+参考答案: 
+
+	主要实现以下几个步骤即可: 
+	1) openssl生成公钥私钥 
+	2) 服务器或客户端使用https替代http 
+	3) 服务器或客户端加载公钥私钥证书
+
+3. 实现一个简单的http服务器?
+
+参考答案: 
+	
+	经典又很没毛意义的一个题目．思路是加载http模块，创建服务器，监听端口.
+
+代码演示
+
+    var http = require('http'); // 加载http模块
+
+    http.createServer(function(req, res) {
+        res.writeHead(200, {'Content-Type': 'text/html'}); // 200代表状态成功, 文档类型是给浏览器识别用的
+        res.write('<meta charset="UTF-8"> <h1>我是标题啊！</h1> <font color="red">这么原生，初级的服务器，下辈子能用着吗?!</font>'); // 返回给客户端的html数据
+        res.end(); // 结束输出流
+    }).listen(3000); // 绑定3ooo, 查看效果请访问 http://localhost:3000 
