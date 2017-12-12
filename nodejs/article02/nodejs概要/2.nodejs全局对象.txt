@@ -1,0 +1,24 @@
+1. node有哪些全局对象?
+参考答案: process, console, Buffer和exports
+
+2. process有哪些常用方法?
+参考答案: process.stdin, process.stdout, process.stderr, process.on, process.env, process.argv, process.arch, process.platform, process.exit
+
+3. console有哪些常用方法?
+参考答案: console.log/console.info, console.error/console.warning, console.time/console.timeEnd, console.trace, console.table
+
+4. node有哪些定时功能?
+参考答案: setTimeout/clearTimeout, setInterval/clearInterval, setImmediate/clearImmediate, process.nextTick
+
+5. node中的事件循环是什么样子的?
+参考答案: 
+	event loop其实就是一个事件队列，先加入先执行，执行完一次队列，再次循环遍历看有没有新事件加入队列．
+	执行中的叫IO events, setImmediate是在当前队列立即执行,
+	setTimout/setInterval是把执行定时到下一个队列，
+	process.nextTick是在当前执行完，下次遍历前执行．
+	所以总体顺序是: IO events >> setImmediate >> setTimeout/setInterval >> process.nextTick
+
+6. node中的Buffer如何应用?
+参考答案: Buffer是用来处理二进制数据的，比如图片，mp3,数据库文件等.Buffer支持各种编码解码，二进制字符串互转．
+
+

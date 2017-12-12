@@ -1,0 +1,59 @@
+1. 什么是Stream?
+
+参考答案: 
+
+	stream是基于事件EventEmitter的数据管理模式．
+	
+	由各种不同的抽象接口组成，主要包括可写，可读，可读写，可转换等几种类型．
+
+2. Stream有什么好处?
+
+参考答案: 
+
+	非阻塞式数据处理提升效率，片断处理节省内存，管道处理方便可扩展等.
+
+3. Stream有哪些典型应用?
+
+参考答案: 
+
+	文件，网络，数据转换，音频视频等.
+
+4. 怎么捕获Stream的错误事件?
+
+参考答案: 
+
+	监听error事件，方法同EventEmitter.
+
+5. 有哪些常用Stream,分别什么时候使用?
+
+参考答案: 
+
+	Readable为可被读流，在作为输入数据源时使用；
+	Writable为可被写流,在作为输出源时使用；
+	Duplex为可读写流,它作为输出源接受被写入，同时又作为输入源被后面的流读出．
+	Transform机制和Duplex一样，都是双向流，区别时Transfrom只需要实现一个函数_transfrom(chunk, encoding, callback);而Duplex需要分别实现_read(size)函数和_write(chunk, encoding, callback)函数.
+
+6. 实现一个Writable Stream?
+
+参考答案: 
+
+	三步走:
+	1)	构造函数call Writable 
+	2)　继承Writable 
+	3)	实现_write(chunk, encoding, callback)函数
+
+代码演示
+
+var Writable = require('stream').Writable;
+var util = require('util');
+
+function MyWritable(options) {
+    Writable.call(this, options);
+} // 构造函数
+util.inherits(MyWritable, Writable); // 继承自Writable
+MyWritable.prototype._write = function(chunk, encoding, callback) {
+    console.log("被写入的数据是:", chunk.toString()); // 此处可对写入的数据进行处理
+    callback();
+};
+
+process.stdin.pipe(new MyWritable()); // stdin作为输入源，MyWritable作为输出源   

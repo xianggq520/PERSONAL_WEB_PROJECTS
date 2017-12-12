@@ -1,0 +1,82 @@
+1. 什么是EventEmitter?
+
+参考答案: 
+
+	EventEmitter是node中一个实现观察者模式的类，主要功能是监听和发射消息，用于处理多模块交互问题.
+
+2. 如何实现一个EventEmitter?
+
+参考答案: 
+	
+	主要分三步：定义一个子类，调用构造函数，继承EventEmitter.
+
+代码演示:
+
+    var util = require('util');
+    var EventEmitter = require('events').EventEmitter;
+
+    function MyEmitter() {
+        EventEmitter.call(this);
+    } // 构造函数
+
+    util.inherits(MyEmitter, EventEmitter); // 继承
+
+    var em = new MyEmitter();
+    
+    em.on('hello', function(data) {
+        console.log('收到事件hello的数据:', data);
+    }); // 接收事件，并打印到控制台
+    
+    em.emit('hello', 'EventEmitter传递消息真方便!');
+    
+3. EventEmitter有哪些典型应用?
+
+参考答案:
+	1) 模块间传递消息 
+	2) 回调函数内外传递消息 
+	3) 处理流数据，因为流是在EventEmitter基础上实现的. 
+	4) 观察者模式发射触发机制相关应用
+
+4. 怎么捕获EventEmitter的错误事件?
+
+参考答案: 
+	
+	监听error事件即可．如果有多个EventEmitter,也可以用domain来统一处理错误事件.
+
+代码演示:
+
+    var domain = require('domain');
+    var myDomain = domain.create();
+    
+    myDomain.on('error', function(err){
+        console.log('domain接收到的错误事件:', err);
+    }); // 接收事件并打印
+    
+    myDomain.run(function(){
+        var emitter1 = new MyEmitter();
+        emitter1.emit('error', '错误事件来自emitter1');
+        emitter2 = new MyEmitter();
+        emitter2.emit('error', '错误事件来自emitter2');
+    });
+    
+5. EventEmitter中的newListenser事件有什么用处?
+
+参考答案: 
+
+	newListener可以用来做事件机制的反射，特殊应用，事件管理等．
+	
+	当任何on事件添加到EventEmitter时，就会触发newListener事件，基于这种模式，我们可以做很多自定义处理.
+
+代码演示:
+
+	var emitter3 = new MyEmitter();
+	
+	emitter3.on('newListener', function(name, listener) {
+	    console.log("新事件的名字:", name);
+	    console.log("新事件的代码:", listener);
+	    setTimeout(function(){ console.log("我是自定义延时处理机制"); }, 1000);
+	});
+	
+	emitter3.on('hello', function(){
+	    console.log('hello　node');
+	});
