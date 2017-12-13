@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<script>
+		
+		/*
+		 * 函数执行首先要创建函数的执行环境
+		 * 这个过程中，要看声明了哪些变量和函数，以及参数，
+		 * 同名的函数声明会覆盖变量声明和参数
+		 * 执行环境创建完成后，开始执行
+		 * */
+		alert(a);  		 
+		a();  			 
+		function a(){	
+			alert(10);
+		}		
+		var a = 3;		 
+		alert(a);
+		a = 6;			 
+		a();			 
+		
+		/*
+		 * function a(){}
+		 * 10
+		 * 3
+		 * error a is not a function
+		 * 
+		 * */
+	</script>
+	<body>
+	</body>
+</html>
