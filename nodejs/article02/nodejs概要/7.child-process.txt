@@ -1,0 +1,72 @@
+1. 为什么需要child-process?
+
+参考答案: 
+
+	node是异步非阻塞的，这对高并发非常有效．
+	可是我们还有其它一些常用需求，比如和操作系统shell命令交互，
+	调用可执行文件，创建子进程进行阻塞式访问或高CPU计算等，
+	child-process就是为满足这些需求而生的．
+	child-process顾名思义，就是把node阻塞的工作交给子进程去做．
+
+2. exec,execFile,spawn和fork都是做什么用的?
+
+参考答案:
+
+ 	exec可以用操作系统原生的方式执行各种命令，
+ 	如管道 cat ab.txt | grep hello; 
+ 	execFile是执行一个文件; 
+ 	spawn是流式和操作系统进行交互; 
+ 	fork是两个node程序(javascript)之间时行交互.
+
+3. 实现一个简单的命令行交互程序?
+
+参考答案: 那就用spawn吧.
+
+代码演示
+
+    var cp = require('child_process');
+
+    var child = cp.spawn('echo', ['你好', "钩子"]); // 执行命令
+    child.stdout.pipe(process.stdout); // child.stdout是输入流，process.stdout是输出流
+    // 这句的意思是将子进程的输出作为当前程序的输入流，然后重定向到当前程序的标准输出，即控制台
+    
+4. 两个node程序之间怎样交互?
+
+参考答案: 
+
+	用fork嘛，上面讲过了．
+	原理是子程序用process.on, process.send，
+	父程序里用child.on,child.send进行交互.
+
+代码演示
+
+    1) fork-parent.js
+    var cp = require('child_process');
+    var child = cp.fork('./fork-child.js');
+    
+    child.on('message', function(msg){
+        console.log('老爸从儿子接受到数据:', msg);
+    });
+    
+    child.send('我是你爸爸，送关怀来了!');
+
+    2) fork-child.js
+    
+    process.on('message', function(msg){
+        console.log("儿子从老爸接收到的数据:", msg);
+        process.send("我不要关怀，我要银民币！");
+    });
+    
+5. 怎样让一个js文件变得像linux命令一样可执行?
+
+参考答案: 
+
+	1) 在myCommand.js文件头部加入 #!/usr/bin/env node 
+	2) chmod命令把js文件改为可执行即可 
+	3) 进入文件目录，命令行输入myComand就是相当于node myComand.js了
+
+6. child-process和process的stdin,stdout,stderror是一样的吗?
+
+参考答案: 
+
+	概念都是一样的，输入，输出，错误，都是流．区别是在父程序眼里，子程序的stdout是输入流，stdin是输出流．

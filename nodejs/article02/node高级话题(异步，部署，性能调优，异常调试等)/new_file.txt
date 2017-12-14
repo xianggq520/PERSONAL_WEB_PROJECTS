@@ -1,0 +1,191 @@
+1. node中的异步和同步怎么理解?
+
+参考答案: 
+
+node是单线程的，异步是通过一次次的循环事件队列来实现的．
+同步则是说阻塞式的IO,这在高并发环境会是一个很大的性能问题，
+所以同步一般只在基础框架的启动时使用，用来加载配置文件，初始化程序什么的．
+
+2. 有哪些方法可以进行异步流程的控制?
+
+参考答案: 
+
+	1) 多层嵌套回调
+	2) 为每一个回调写单独的函数，函数里边再回调 
+	3) 用第三方框架比方async, q, promise等
+
+3. 怎样绑定node程序到80端口?
+
+参考答案: 多种方式 
+
+	1) sudo 
+	2) apache/nginx代理 
+	3) 用操作系统的firewall iptables进行端口重定向
+
+4. 有哪些方法可以让node程序遇到错误后自动重启?
+
+参考答案: 
+
+	1) runit 
+	2) forever 
+	3) nohup npm start &
+
+5. 怎样充分利用多个CPU?
+
+参考答案: 
+
+	一个CPU运行一个node实例
+
+6. 怎样调节node执行单元的内存大小?
+
+参考答案: 
+
+	用--max-old-space-size 和 --max-new-space-size 来设置 v8 使用内存的上限
+
+7. 程序总是崩溃，怎样找出问题在哪里?
+
+参考答案: 
+	1) node --prof 查看哪些函数调用次数多 
+	2) memwatch和heapdump获得内存快照进行对比，查找内存溢出
+
+8. 有哪些常用方法可以防止程序崩溃?
+
+参考答案: 
+	1) try-catch-finally 
+	2) EventEmitter/Stream error事件处理 
+	3) domain统一控制 
+	4) jshint静态检查 
+	5) jasmine/mocha进行单元测试
+
+9. 怎样调试node程序?
+
+参考答案: 
+
+	node --debug app.js 和node-inspector
+	
+常用知名第三方类库(Async, Express等)
+
+1. async都有哪些常用方法，分别是怎么用?
+
+参考答案: 
+
+	async是一个js类库，它的目的是解决js中异常流程难以控制的问题．
+	async不仅适用在node.js里，浏览器中也可以使用． 1) async.parallel并行执行完多个函数后，调用结束函数
+
+    async.parallel([
+        function(){ ... },
+        function(){ ... }
+    ], callback);
+    
+2) async.series串行执行完多个函数后，调用结束函数
+
+    async.series([
+        function(){ ... },
+        function(){ ... }
+    ]);
+    
+3) async.waterfall依次执行多个函数，后一个函数以前面函数的结果作为输入参数
+
+    async.waterfall([
+        function(callback) {
+            callback(null, 'one', 'two');
+        },
+        function(arg1, arg2, callback) {
+          // arg1 now equals 'one' and arg2 now equals 'two' 
+            callback(null, 'three');
+        },
+        function(arg1, callback) {
+            // arg1 now equals 'three' 
+            callback(null, 'done');
+        }
+    ], function (err, result) {
+        // result now equals 'done' 
+    });
+    
+4) async.map异步执行多个数组，返回结果数组
+
+    async.map(['file1','file2','file3'], fs.stat, function(err, results){
+        // results is now an array of stats for each file 
+    });
+    
+5) async.filter异步过滤多个数组，返回结果数组
+
+    async.filter(['file1','file2','file3'], fs.exists, function(results){
+        // results now equals an array of the existing files 
+    });
+    
+2. express项目的目录大致是什么样子的
+
+参考答案: app.js, package.json, bin/www, public, routes, views.
+
+3. express常用函数
+
+参考答案: express.Router路由组件,app.get路由定向，app.configure配置，app.set设定参数,app.use使用中间件
+
+4. express中如何获取路由的参数
+
+参考答案: 
+
+	/users/:name使用req.params.name来获取; 
+	
+	req.body.username则是获得表单传入参数username; 
+	
+	express路由支持常用通配符 ?, +, *, and ()
+
+5. express response有哪些常用方法
+
+参考答案: 
+
+	res.download() 弹出文件下载
+	res.end() 结束response
+	res.json() 返回json
+	res.jsonp() 返回jsonp
+	res.redirect() 重定向请求
+	res.render() 渲染模板
+	res.send() 返回多种形式数据
+	res.sendFile 返回文件
+	res.sendStatus() 返回状态
+
+其它相关后端常用技术(MongoDB, Redis, Apache, Nginx等)
+
+1. mongodb有哪些常用优化措施
+
+参考答案: 类似传统数据库，索引和分区．
+
+2. redis支持哪些功能
+
+参考答案: set/get, hset/hget, publish/subscribe, expire
+
+3. redis最简单的应用
+
+参考答案:
+
+    var redis = require("redis"),
+        client = redis.createClient();
+
+    client.set("foo_rand000000000000", "some fantastic value");
+    client.get("foo_rand000000000000", function (err, reply) {
+        console.log(reply.toString());
+    });
+    client.end();
+    
+4. apache,nginx有什么区别?
+
+参考答案: 二者都是代理服务器，功能类似．apache应用简单，相当广泛．nginx在分布式，静态转发方面比较有优势．
+
+常用前端技术(Html5, CSS3, JQuery等)
+
+1. Html5有哪些比较实用新功能
+
+参考答案: 
+	File API支持本地文件操作;
+ 	Canvans/SVG支持绘图; 拖拽功能支持; 
+ 	本地存储支持; 
+ 	表单多属性验证支持; 
+ 	原生音频视频支持等
+
+2. CSS3/JQuery有哪些学常见选择器
+
+参考答案: id, 元素，属性, 值，父子兄弟, 序列等
+
+3. JQuery有哪些经典应用
