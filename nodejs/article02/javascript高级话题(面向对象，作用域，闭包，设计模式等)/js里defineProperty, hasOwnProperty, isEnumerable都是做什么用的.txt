@@ -19,7 +19,8 @@ console.log(obj);
 
 
 *********以下内容链接：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty************
-
+http://imweb.io/topic/56d40adc0848801a4ba198ce
+***********************
 语法
 Object.defineProperty(obj, prop, descriptor)
 参数
