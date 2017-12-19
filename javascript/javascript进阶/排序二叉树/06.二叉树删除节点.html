@@ -5,7 +5,10 @@
 		<title></title>
 	</head>
 	<body>
-		适用于文件系统遍历
+		二叉树查找分三类：
+		1.查找最小值
+		2.查找最大值
+		3.查找具体值
 		<script>
 			function BinaryTree(){
 				var Node = function(key){
@@ -79,25 +82,86 @@
 					}
 				}
 				/*后序遍历*/
-				this.postOrderTraverse = function(callback){
+				this.postOrderTraverse = function(callback) {
 					postOrderTraverseNode(root, callback);
 				}
 				
+				 
+				var minNode = function(node) {
+					while(node && node.left) {
+						node = node.left;
+					}
+					return node;
+				}
+				/**
+				 *	1.查找最小值
+				 * */
+				this.min = function() {
+					return minNode(root);
+				}
+				 
+				var maxNode = function(node){
+					while(node && node.right) {
+						node = node.right;
+					}
+					return node;
+				}
+				/**
+				 * 2.查找最大值
+				 * */
+				this.max = function(){
+					return maxNode(root);
+				}
+				
+				var searchNode = function(node, key){
+					if(!node){
+						return false;
+					}
+					if(key < node.key){
+						return searchNode(node.left, key);
+					}else if(key > node.key){
+						return searchNode(node.right, key);
+					}else{
+						return true;
+					}
+				}
+				
+				/**
+				 * 3.查找确定的值
+				 * */
+				this.search = function(key){
+					return searchNode(root, key);
+				}
+				
 			}
-			
-			var nodes = [2,12,8,3,6,9,1,7];
+
+			var nodes = [2, 12, 8, 3, 6, 9, 1, 7];
 			var binaryTree = new BinaryTree();
-			
+
 			nodes.forEach(key => binaryTree.insert(key));
-			
+
 			var traversalResults = [];
-			var traversalCallback = function(node){
+			var traversalCallback = function(node) {
 				traversalResults.push(node.key);
 			}
-			
+
 			binaryTree.postOrderTraverse(traversalCallback);
 			
 			console.log("输入数组 "+ nodes + " 后序遍历结果：", traversalResults);
+			
+			var min = binaryTree.min();
+			
+			console.log(min);
+			
+			var max = binaryTree.max();
+			
+			console.log(max);
+			
+			var searchNode = binaryTree.search(3);
+			console.log(searchNode);
+			
+			var searchNode2 = binaryTree.search(31);
+			console.log(searchNode2);
 			
 		</script>
 	</body>
