@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<script>
+			function BinaryTree(){
+				var Node = function(key){
+					this.key = key;
+					this.left = null;
+					this.rigth = null;
+				}
+				
+				var root = null;
+				var insertNode = function(oldNode, newNode){
+					if(newNode.key < oldNode.key){
+						oldNode.left == null ? oldNode.left = newNode : insertNode(oldNode.left, newNode);
+					} else {
+						oldNode.right == null ? oldNode.right = newNode : insertNode(oldNode.right, newNode);
+					}
+				}
+				this.insert = function(key){
+					var node = new Node(key);
+					if(root === null){
+						root = node;
+					} else {
+						insertNode(root, node);
+					}
+					
+				}
+				
+			}
+			
+			var nodes = [2,12,8,3,6,9,1,7];
+			var binaryTree = new BinaryTree();
+			
+			nodes.forEach(key => binaryTree.insert(key));
+			
+			
+			
+		</script>
+	</body>
+</html>
