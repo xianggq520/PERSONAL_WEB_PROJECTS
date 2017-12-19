@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		适用于二叉树复制
+		<script>
+			function BinaryTree(){
+				var Node = function(key){
+					this.key = key;
+					this.left = null;
+					this.rigth = null;
+				}
+				var root = null;
+				var insertNode = function(oldNode, newNode){
+					if(newNode.key < oldNode.key){
+						oldNode.left == null ? oldNode.left = newNode : insertNode(oldNode.left, newNode);
+					} else {
+						oldNode.right == null ? oldNode.right = newNode : insertNode(oldNode.right, newNode);
+					}
+				}
+				this.insert = function(key){
+					var node = new Node(key);
+					if(root === null){
+						root = node;
+					} else {
+						insertNode(root, node);
+					}
+				}
+				/*中序排序 遍历节点*/
+				var traversalNode = function(node, callback){
+					if(node != null){
+						/*
+						 * 中序遍历步骤：
+						 * 1.遍历左子节点树
+						 * 2.返回当前节点
+						 * 3.遍历右子节点树
+						 * 
+						 * */
+						/*遍历node的左节点*/
+						traversalNode(node.left, callback);
+						/*找到左节点，传入callback函数*/
+						callback(node);
+						/*遍历node的右节点*/
+						traversalNode(node.right, callback)
+					}
+				}
+				/*中序排序函数*/
+				this.inorderTraversal= function(callback){
+					traversalNode(root, callback);
+				}
+				/*前序排序遍历节点函数*/
+				var preTraverseNode = function(node, callback){
+					if(node != null){
+						/*
+						 * 前序便利二叉树步骤
+						 * 1.打印当前结点
+						 * 2.遍历左子节点树
+						 * 3.遍历右子节点树
+						 * */
+						callback(node);// 1.
+						preTraverseNode(node.left, callback); // 2.
+						preTraverseNode(node.right, callback); // 3.
+					}
+				}
+				/*前序排序函数*/
+				this.preOrderTraverse = function(callback){
+					preTraverseNode(root, callback);
+				}
+			}
+			
+			var nodes = [2,12,8,3,6,9,1,7];
+			var binaryTree = new BinaryTree();
+			
+			nodes.forEach(key => binaryTree.insert(key));
+			
+			var traversalResults = [];
+			var traversalCallback = function(node){
+				traversalResults.push(node.key);
+			}
+			
+			binaryTree.preOrderTraverse(traversalCallback);
+			
+			console.log("输入数组 "+ nodes + " 前序遍历结果：", traversalResults);
+			
+		</script>
+	</body>
+</html>
