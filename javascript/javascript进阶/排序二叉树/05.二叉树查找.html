@@ -133,29 +133,6 @@
 					return searchNode(root, key);
 				}
 				
-				var removeNode = function(node, key){
-					if(!node){
-						return null;
-					}
-					if(key < node.key){
-						node.left = removeNode(node.left, key);
-						return node;
-					} else if (key > node.key){
-						node.right = removeNode(node.right, key);
-						return node;
-					} else {
-						if(!node.left && !node.right){
-							node = null;
-							return node;
-						}
-					}
-				}
-				/**
-				 * 删除节点
-				 * */
-				this.remove = function(key){
-					return removeNode(root, key);
-				}
 				
 			}
 
@@ -187,11 +164,7 @@
 			var searchNode2 = binaryTree.search(31);
 			console.log(searchNode2);
 			
-			var removedNode = binaryTree.remove(3);
-			console.log(removedNode);
 			
-			searchNode = binaryTree.search(3);
-			console.log(searchNode);
 			
 		</script>
 	</body>

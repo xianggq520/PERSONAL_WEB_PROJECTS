@@ -14,7 +14,7 @@
 				var Node = function(key){
 					this.key = key;
 					this.left = null;
-					this.rigth = null;
+					this.right = null;
 				}
 				var root = null;
 				var insertNode = function(oldNode, newNode){
@@ -34,7 +34,7 @@
 				}
 				/*中序排序 遍历节点*/
 				var traversalNode = function(node, callback){
-					if(node != null){
+					if (node != null) {
 						/*
 						 * 中序遍历步骤：
 						 * 1.遍历左子节点树
@@ -47,7 +47,7 @@
 						/*找到左节点，传入callback函数*/
 						callback(node);
 						/*遍历node的右节点*/
-						traversalNode(node.right, callback)
+						traversalNode(node.right, callback);
 					}
 				}
 				/*中序排序函数*/
@@ -113,15 +113,15 @@
 					return maxNode(root);
 				}
 				
-				var searchNode = function(node, key){
-					if(!node){
+				var hasNode = function(node, key){
+					if (!node) {
 						return false;
 					}
-					if(key < node.key){
-						return searchNode(node.left, key);
-					}else if(key > node.key){
-						return searchNode(node.right, key);
-					}else{
+					if (key < node.key) {
+						return hasNode(node.left, key);
+					} else if (key > node.key) {
+						return hasNode(node.right, key);
+					} else {
 						return true;
 					}
 				}
@@ -130,8 +130,56 @@
 				 * 3.查找确定的值
 				 * */
 				this.search = function(key){
-					return searchNode(root, key);
+					return hasNode(root, key);
 				}
+				
+				/*查询最小节点*/
+				var findMinNode = function(node){
+					if(node){
+						while(node && node.left){
+							node = node.left;
+						}
+						return node;
+					}
+					return null;
+				}
+				var removedNode = null;
+				var removeNode = function(node, key){
+					if(!node){
+						return null;
+					}
+					if(key < node.key) {
+						node.left = removeNode(node.left, key);
+						return node;
+					} else if (key > node.key) {
+						node.right = removeNode(node.right, key);
+						return node;
+					} else {
+						if(!node.left && !node.right){
+							node = null;
+							return node;
+						} else if(node.left && node.right){
+							//1.查找右子树的最小节点minNode，2.删除minNode，3.替换当前节点的右子树
+							var minNode = findMinNode(node.right); // 1
+							node.right = removeNode(node.right, minNode.key); //2 3
+							node.key = minNode.key; // 3
+							return node;
+						} else if(node.right){
+							node = node.right;
+							return node;
+						} else {
+							node = node.left;
+							return node;
+						}
+					}
+				}
+				/**
+				 * 删除节点
+				 * */
+				this.remove = function(key){
+					root = removeNode(root, key);
+				}
+				
 				
 			}
 
@@ -163,6 +211,14 @@
 			var searchNode2 = binaryTree.search(31);
 			console.log(searchNode2);
 			
+			binaryTree.remove(8);
+						
+			searchNode = binaryTree.search(3);
+			console.log(searchNode);
+			
+			traversalResults = [];
+			binaryTree.postOrderTraverse(traversalCallback);
+			console.log("输入数组 "+ nodes + " 删除node(8)后，后序遍历结果：", traversalResults);
 		</script>
 	</body>
 </html>
