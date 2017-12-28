@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="index.js"></script>
+		<script>
+			function ajax(){
+				doAjax({
+					method:"GET",
+					url:"a.txt"
+				}, function(res){
+					console.log(res);
+				}, function(error){
+					console.log(error);
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<button onclick="ajax()">get a.txt</button>
+	</body>
+</html>

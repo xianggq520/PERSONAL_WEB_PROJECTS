@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="index.js"></script>
+		<script>
+			setCookie("username", "xgq", 2);
+			
+			console.log(document.cookie);
+			
+			setCookie("username1", "xgq1", 2);
+			
+			console.log(document.cookie);
+			
+			console.log(getCookie("username1"));
+			
+			removeCookie("username");
+			
+			console.log(document.cookie);
+			
+			console.log(getCookie("username"));
+		</script>
+	</head>
+	<body>
+		1.同一域名的网页共享一套cookie
+		2.数量、大小有限制
+		3.过期时间
+	</body>
+</html>
