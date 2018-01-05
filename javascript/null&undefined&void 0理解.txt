@@ -1,0 +1,10 @@
+undefined === void 0
+true
+null === void 0
+false
+null == void 0
+true
+void 0
+undefined
+null === undefined
+false

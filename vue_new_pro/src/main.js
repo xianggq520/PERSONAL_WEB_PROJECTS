@@ -1,24 +1,23 @@
 import Vue from 'vue'
-import App from './App.vue'
 import VueRouter from 'vue-router'
 import axios from 'axios'
-import Loading from './components/Loading'
 
+import App from './App.vue'
+import Loading from './components/Loading'
 import stores from './store/store'
 import routes from './routeConfig.js'
-
 import filters from './filters'
 
-Object.keys(filters).forEach(key => Vue.filter(key, filters[key]))
+require('./assets/css/base.css'); //引入全局的base文件
+
+Object.keys(filters).forEach(key => Vue.filter(key, filters[key]));
 
 Vue.use(VueRouter);
 Vue.use(Loading);
 
-require('./assets/css/base.css'); //引入全局的base文件
-
-const router=new VueRouter({
+const router = new VueRouter({
 	mode: 'history', //切换路径模式，变成history模式
-  scrollBehavior: () => ({ y: 0 }), // 滚动条滚动的行为，不加这个默认就会记忆原来滚动条的位置
+  scrollBehavior: (to, from, savedPosition) => { console.log(to, from, savedPosition); return ({ y: 0 });}, // 滚动条滚动的行为，不加这个默认就会记忆原来滚动条的位置
 	routes
 });
 

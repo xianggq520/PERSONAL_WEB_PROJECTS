@@ -1,0 +1,29 @@
+1.some()
+
+描述
+
+some 为数组中的每一个元素执行一次 callback 函数，直到找到一个使得 callback 返回一个“真值”（即可转换为布尔值 true 的值）。如果找到了这样一个值，some 将会立即返回 true。否则，some 返回 false。callback 只会在那些”有值“的索引上被调用，不会在那些被删除或从来未被赋值的索引上调用。
+
+callback 被调用时传入三个参数：元素的值，元素的索引，被遍历的数组。
+
+如果为 some 提供了一个 thisArg 参数，将会把它传给被调用的 callback，作为 this 值。否则，在非严格模式下将会是全局对象，严格模式下是 undefined。
+
+some 被调用时不会改变数组。
+
+some 遍历的元素的范围在第一次调用 callback. 时就已经确定了。在调用 some 后被添加到数组中的值不会被 callback 访问到。如果数组中存在且还未被访问到的元素被 callback 改变了，则其传递给 callback 的值是 some 访问到它那一刻的值。
+
+案例：
+
+function isBigEnough(element, index, array) {
+	console.log(element);
+    return (element >= 10);
+}
+var passed = [2, 5, 8, 1, 4].some(isBigEnough);
+// passed is false
+passed = [12, 5, 8, 1, 4].some(isBigEnough);
+// passed is true   只执行到12
+
+
+
+
+ 
