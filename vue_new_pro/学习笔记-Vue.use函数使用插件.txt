@@ -1,0 +1,67 @@
+/**
+ * Convert an Array-like object to a real Array.
+ */
+function toArray(list, start) {
+  start = start || 0;
+  var i = list.length - start;
+  var ret = new Array(i);
+  while (i--) {
+    ret[i] = list[i + start];
+  }
+  return ret
+}
+
+Vue.use = function (plugin) {
+    var installedPlugins = (this._installedPlugins || (this._installedPlugins = []));
+    if (installedPlugins.indexOf(plugin) > -1) {
+        return this
+    }
+    // additional parameters
+    var args = toArray(arguments, 1);
+    args.unshift(this);
+    if (typeof plugin.install === 'function') {
+        plugin.install.apply(plugin, args);
+    } else if (typeof plugin === 'function') {
+        plugin.apply(null, args);
+    }
+    installedPlugins.push(plugin);
+    return this;
+};
+
+
+测试：
+
+function Test(){}
+Test.use = function(plugin){
+    console.log(this);  // Test
+    var args = toArray(arguments, 1);
+    console.log(args);
+    args.unshift(this);
+    console.log(args);
+    if (typeof plugin.install === 'function') {
+        plugin.install.apply(plugin, args);
+    } else if (typeof plugin === 'function') {
+        plugin.apply(null, args);
+    }
+    function toArray(list, start) {
+        start = start || 0;
+        var i = list.length - start;
+        var ret = new Array(i);
+        while (i--) {
+            ret[i] = list[i + start];
+        }
+        return ret
+    }
+}
+var _args;
+模拟一个插件，install函数, version
+var plugin = { 
+    install : function(args){
+        console.log(args);
+        _args = args;
+        console.log(_args);
+    }, 
+    version: "0.0.1"
+};
+
+Test.use (plugin);
