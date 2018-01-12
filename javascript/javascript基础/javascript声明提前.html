@@ -7,17 +7,25 @@
 	<script>
 		
 		/*
-		 * 函数执行首先要创建函数的执行环境
-		 * 这个过程中，要看声明了哪些变量和函数，以及参数，
-		 * 同名的函数声明会覆盖变量声明和参数
-		 * 执行环境创建完成后，开始执行
+		 * 1.首先要创建(函数的)执行环境
+		 * 		I.首先解析声明了哪些变量(var ...)和函数(function ...)，以及要执行的函数的参数，该过程即是声明提前。
+		 * 		II.解析规则：同名的函数声明(function ...)会覆盖变量声明(var ...)和参数 ((arg1, arg2, ...))。
+		 * 2.执行环境创建完成后，开始执行
+		 * 
 		 * */
 		alert(a);  		 
-		a();  			 
+		a();  
+		var a = function a() {
+			alert(9);
+		}	
+		alert(a);		 
 		function a(){	
 			alert(10);
 			console.log(b);
-		}	
+		}
+		alert(a);
+		var a = function(){ alert(11);}	
+		alert(a);
 		var b = 4;
 		var a = 3;		 
 		alert(a);
@@ -27,10 +35,45 @@
 		/*
 		 * function a(){}
 		 * 10
+		 * function a() { alert(9);}	
+		 * function a() { alert(9);}	
+		 * function(){ alert(11);}	
 		 * 3
 		 * error a is not a function
 		 * 
 		 * */
+
+		/**
+		 * 可以这么理解：
+		 * **/
+
+		// 声明提前：
+		var a;
+		var b;
+		function a(){	// 此处相当于给变量a第一次赋值
+			alert(10);
+			console.log(b);
+		}
+		// 执行：
+		alert(a);  		 
+		a();  
+		a = function a() { //第二次赋值
+			alert(9);
+		}	
+		alert(a);		 
+		// function声明被提前
+		/* function a(){	
+			alert(10);
+			console.log(b);
+		} */
+		alert(a);
+		a = function(){ alert(11);}	 //第三次赋值
+		alert(a);
+	    b = 4;
+		a = 3;		  //第四次赋值
+		alert(a);
+		a = 6;		  //第五次赋值	 
+		a();
 	</script>
 	<body>
 	</body>
