@@ -1,27 +1,3 @@
-function noop (a, b, c) {}
-
-var sharedPropertyDefinition = {
-  enumerable: true,
-  configurable: true,
-  get: noop,
-  set: noop
-};
-
-function proxy (target, sourceKey, key) {
-  sharedPropertyDefinition.get = function proxyGetter () {
-    return this[sourceKey][key]
-  };
-  sharedPropertyDefinition.set = function proxySetter (val) {
-    this[sourceKey][key] = val;
-  };
-  Object.defineProperty(target, key, sharedPropertyDefinition);
-}
-
-//将属性key定义Vue._data对象上
-proxy(vm, "_data", key); // 3373  (vm = Vue)
-
-
-
 // 重写数组prototype上的函数，当执行这些函数的时候触发数据变更提示notify   818
 var arrayProto = Array.prototype;
 var arrayMethods = Object.create(arrayProto);[
@@ -57,5 +33,3 @@ var arrayMethods = Object.create(arrayProto);[
     return result
   });
 });
-
-
