@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<loading v-if="loading"></loading>
+		<loading v-show="loading"></loading>
 		<NavHeader v-show="headShow"></NavHeader>
 		<transition name="slide-down">
 			<keep-alive>
@@ -19,11 +19,13 @@
 	import {mapGetters} from 'vuex'
 
 	export default{
-		computed:mapGetters([
-			'headShow',
-			'loading',
-			'footerShow'
-		]),
+		computed:{
+			... mapGetters([
+				'headShow',
+				'loading',
+				'footerShow'
+			])
+		},
 		mounted(){
 			var path=this.$route.path.substring(1);
 			this.headerChange(path);
@@ -34,6 +36,7 @@
 				var path=to.path.substring(1);
 				this.headerChange(path);
 				this.footerChange(path);
+				console.log(this.loading);
 			}
 		},
 		methods:{
