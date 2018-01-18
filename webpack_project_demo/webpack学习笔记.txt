@@ -1,0 +1,220 @@
+# 初始化package.json
+
+    npm init -y
+
+# 安装到项目依赖中
+
+    npm install webpack --save-dev
+
+    或者
+
+    cnpm install webpack --save-dev
+
+# 先安装webpack-dev-server
+
+    //全局安装
+    npm install webpack-dev-server --g
+    //安装到项目依赖中
+    npm install webpack-dev-server --save-dev
+    或者
+    cnpm install webpack-dev-server --save-dev
+
+    webpack-dev-server
+
+    它将在localhost:8080启动一个express静态资源web服务器，
+    并且会以监听模式自动运行webpack，在浏览器打开http://localhost:8080/
+    或http://localhost:8080/webpack-dev-server/可以浏览项目中的页面和编译后的资源输出，
+    并且通过一个socket.io服务实时监听它们的变化并自动刷新页面。
+
+# 安装完webpack-dev-server，新建一个webpack.config.js文件，用来配置webpack
+
+
+# 我们可以在package.json中输入以下内容
+
+    "scripts": {
+        "dev": "webpack-dev-server --colors --hot --inline",
+        "build": "webpack --colors --watch"
+    }
+
+    这样我们只需要键入npm run dev / npm run build就能执行上面的命令了。
+
+    webpack-dev-server --inline --hot
+
+    当我们修改了模块的内容后，webpack-dev-server
+    会自动执行打包(打包后的结果会缓存到内存中，所以不能在本地文件中看到打包后的文件)。
+
+    inline选项为整个页面添加了"Live Reloading"功能，
+    而hot选项开启了"Hot Module Reloading"功能，
+    这样就会尝试着重载发生变化的组件，而不是整个页面。这样就实现了修改文件，界面就会自动更新了。
+
+# Webpack配置
+
+    webpack.config.js为Webpack的默认配置，我们可以为开发环境和生产环境分别做不同的配置。
+
+
+# entry
+
+    entry
+
+    entry是入口配置项，可以是string,Array或者一个Object:
+
+    entry: {
+        app: './src/main.js'
+    },
+
+    entry: './src/main.js'
+
+    如果页面有多个入口可以这样写:
+
+    entry: ['./src/home.js', '.src/profile.js']
+    //或
+    entry: {
+        home: './src/home.js',
+        profile: './src/profile.js'
+    }
+
+
+# output
+
+    output是输出配置。
+
+    output: {
+        path: path.resolve(__dirname, './dist'),
+        publicPath: '/',
+        filename: '[name].js',
+        chunkFilename: '[id].[hash].js'
+    }
+
+    path是文件输出到本地的路径，
+    publicPath是文件的引用路径，可用来被一些Webpack插件用来处理CSS，HTML文件中的URL，一般用于生产模式，
+    filename是打包后的入口文件名，
+    chunkFilename是每个模块编译后的文件名，其中[hash]是用来唯一标识文件，主要用来防止缓存。
+
+
+# path
+
+    仅仅用来告诉Webpack在哪里存放结果文件,上面例子中，最终的打包文件会放到与当前脚本文件同级目录的dist目录下。即：
+
+    hello-webpack
+        +dist
+        -webpack.config.js
+
+
+# filename
+
+    入口文件打包后的名称,[name]对应着入口文件的key值，
+    例如：app.js,这对多入口文件是很有用的，应为入口文件可以有多个，
+    但是filename只能有一个，所以对于上面的多入口，最后就是:home.js,'profile.js'，
+    当然为了体现文件层级关系可以这么写:
+
+    filename: 'js/[name].js'
+    最后的结果就是：
+
+    |——hello-webpack
+        |——dist
+        |——js
+            home.js
+            profile.js
+        webpack.config.js
+
+ 
+# chunkFilename
+
+    即非入口文件打包后的名称，未被列在entry中，却又需要被打包出来的文件命名配置。
+    一般情况下是不需要这个配置的。比如我们在做异步加载模块时就需要用到了：
+
+    Vue.component('async-webpack-example', function (resolve) {
+        // 这个特殊的 require 语法告诉 webpack
+        // 自动将编译后的代码分割成不同的块，
+        // 这些块将通过 Ajax 请求自动下载。
+        require(['./my-async-component'], resolve)
+    })
+
+# publicPath
+
+    文件的引用路径，可用来被一些Webpack插件用来处理CSS，HTML文件中的URL，
+    在开发模式下建议使用相对路径，在生产模式中，如果你的资源文件放在别的服务器上，可以使用服务器的地址。
+    当然你也可以不用配置publicPath，在项目中我使用了url-loader加载图片。
+
+    {
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        loader: 'url',
+        query: {
+            limit: 10000,
+            name: path.join('static', 'img/[name].[hash:7].[ext]') # 图片最终的输出路径
+        }
+    }
+
+    在main.js中使用了图片
+
+    import Girl from 'assets/img/girl.jpg'
+
+    那么最终浏览器访问的图片路径就是：
+
+    static/img/girl.7672e53.jpg 
+    
+    所以可以根据开发环境和生产环境配置不同的publicPath。
+
+    在生产环境中，由于我的资源文件放在项目目录下，所以可以这样配置output:
+
+    output: {
+        path: path.resolve(__dirname, './dist'),
+        publicPath: './',
+        filename: 'js/[name].[chunkhash].js',
+        chunkFilename: `js/[id].[chunkhash].js`
+    }
+
+    那么最终打包后的输出目录结构就是这样的:
+
+    |——dist
+        |——static
+            |——img
+                girl.7672e53.jpg
+            |——js
+                app.js
+        index.html
+
+    所以通过static/img/girl.7672e53.jpg可以访问到图片。
+    在开发环境下，经过测试，将publicPath设置为'./'界面是无法加载出来的，所以在开发环境下可以不用设置。
+
+# loader
+
+    module: {
+        loaders: [
+            {
+                test: /\.js|jsx?$/,
+                exclude: /node_modules/,
+                loader: 'babel',
+                query: {
+                    presets: ['es2015', 'react']
+                }
+            },
+            {
+                test: /\.css$/,
+                loader: 'style!css',
+                exclude: /node_modules/
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                loader: 'url',
+                query: {
+                    limit: 10000,
+                    name: path.join('static', 'img/[name].[hash:7].[ext]')
+                }
+            }
+        ]
+    }
+
+
+# 
+
+
+ 
+ 
+
+    
+
+
+ 
+
+ 
