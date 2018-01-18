@@ -3,7 +3,7 @@
 		<Slider></Slider>
 	    <div class="newsList">
 	    	<ul>
-	            <li v-for="(item,index) in arrList">
+	            <li v-for="(item,index) in arrList" v-bind:key="index">
 	                <router-link :to="'/article/'+item.id">
 	                	<h2>{{index+1}} . {{item.title}}</h2>
 	                    <p>{{item.detail}}</p>
