@@ -6,9 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>vue api test</title>
     <script src="vue.js"></script>
-
+    
 </head>
 <body>
-    
+    <div id="app">
+        <todo-item
+            v-for="item in groceryList"
+            v-bind:todo="item"
+            v-bind:key="item.id">
+        </todo-item>
+    </div>
+    <script src="main.js"></script>
 </body>
 </html>
