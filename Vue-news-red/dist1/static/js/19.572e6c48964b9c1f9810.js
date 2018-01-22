@@ -1,0 +1,2 @@
+webpackJsonp([19],{157:function(e,t,s){var n=s(16)(s(191),s(269),null,null);e.exports=n.exports},191:function(e,t,s){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default={name:"userposts"}},269:function(e,t){e.exports={render:function(){var e=this,t=e.$createElement;return(e._self._c||t)("div",{staticClass:"userposts"},[e._v("\n\t嵌套路由UserPosts\n")])},staticRenderFns:[]}}});
+//# sourceMappingURL=19.572e6c48964b9c1f9810.js.map
