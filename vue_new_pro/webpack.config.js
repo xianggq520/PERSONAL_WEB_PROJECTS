@@ -19,7 +19,7 @@ module.exports = {
       test: /\.js$/,
       loader: 'babel-loader',
       exclude: /node_modules/
-       
+
     }, {
       test: /\.css$/,
       loader: 'style-loader!css-loader'
@@ -45,7 +45,7 @@ module.exports = {
 process.traceDeprecation = true
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
-    // http://vue-loader.vuejs.org/en/workflow/production.html
+  // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       'process.env': {
