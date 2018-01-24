@@ -1,9 +1,8 @@
-/* var greet = require("./greeter");
+var greet = require("./greeter");
+var hello = require("./hello");
 
-document.querySelector("#root").appendChild(greet()); */
+import './main.css';//使用import导入css文件
+//require("./main.css");//使用require导入css文件
 
-import { React } from "react";
-import { ReactDOM} from "react-dom";
-import Greeter from "./greeter";
-
-ReactDOM.render(<Greeter />, document.getElementById("root"));
+document.querySelector("#root").appendChild(greet()).appendChild(hello());
+ 

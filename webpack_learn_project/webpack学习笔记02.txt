@@ -105,41 +105,190 @@ npm install --save-dev babel-core babel-loader babel-preset-env babel-preset-rea
 
 在webpack中配置Babel的方法如下:
 
-rules: [
-    {
-        test: /(\.jsx|\.js)$/,  // .jsx为react文件
-        use: {
-            loader: "babel-loader",
-            options: {
-                presets: ["env", "react"]
-            }
-        },
-        /* loader:"babel-loader",
-        query: {
-            presets: ['env']
-        }, */
-        exclude: /node_modules/
-    }
-]
+module: {
+    rules: [
+        {
+            test: /(\.jsx|\.js)$/,  // .jsx为react文件
+            use: {
+                loader: "babel-loader",
+                options: {
+                    presets: ["env", "react"]
+                }
+            },
+            /* loader:"babel-loader",
+            query: {
+                presets: ['env']
+            }, */
+            exclude: /node_modules/
+        }
+    ]
+}
 
 or
 
-loaders: [
-    {
-        test: /(\.jsx|\.js)$/,
-        use: {
-            loader: "babel-loader",
-            options: {
-                presets: [
-                    "env"
-                ]
-            }
-        },
-        exclude: /node_modules/
-    }
-]
-
+module: {
+    loaders: [
+        {
+            test: /(\.jsx|\.js)$/,
+            use: {
+                loader: "babel-loader",
+                options: {
+                    presets: [
+                        "env"
+                    ]
+                }
+            },
+            exclude: /node_modules/
+        }
+    ]
+}
 
 ##########################################安装 React 和 React-DOM
 
 npm install --save react react-dom
+
+
+一切皆模块
+Webpack有一个不可不说的优点，它把所有的文件都都当做模块处理，JavaScript代码，CSS和fonts以及图片等等通过合适的loader都可以被处理。
+
+
+##########################################css打包
+webpack提供两个工具处理样式表，css-loader 和 style-loader，二者处理的任务不同，
+css-loader使你能够使用类似@import 和 url(...)的方法实现 require()的功能,
+style-loader将所有的计算后的样式加入页面中，二者组合在一起使你能够把样式表嵌入webpack打包后的JS文件中。
+
+//安装
+npm install --save-dev style-loader css-loader
+
+//配置
+{
+    test: /\.css$/,
+    use: [
+        {
+            loader: "style-loader"
+        }, {
+            loader: "css-loader"
+        }
+    ]
+}
+
+使用方式
+
+##########################################1.在js模块中导入css模块文件
+//import './main.css';//使用import导入css文件
+require("./main.css");//使用require导入css文件
+
+以上方式会在index.html头部新增style标签，嵌入样式。
+
+上面的代码说明webpack是怎么把css当做模块看待的，咱们继续看一个更加真实的css模块实践。
+
+##########################################2.CSS module  更加真实的css模块实践
+
+##########################################https://github.com/css-modules/css-modules
+
+在过去的一些年里，JavaScript通过一些新的语言特性，更好的工具以及更好的实践方法（比如说模块化）发展得非常迅速。
+模块使得开发者把复杂的代码转化为小的，干净的，依赖声明明确的单元，配合优化工具，依赖管理和加载管理可以自动完成。
+
+不过前端的另外一部分，CSS发展就相对慢一些，大多的样式表却依旧巨大且充满了全局类名，维护和修改都非常困难。
+
+被称为CSS modules的技术意在把JS的模块化思想带入CSS中来，通过CSS模块，所有的类名，动画名默认都只作用于当前模块。
+Webpack对CSS模块化提供了非常好的支持，只需要在CSS loader中进行简单配置即可，
+然后就可以直接把CSS的类名传递到组件的代码中，这样做有效避免了全局污染。具体的代码如下:
+
+{
+    test: /\.css$/,
+    use: [
+        {
+            loader: "style-loader"
+        }, 
+        {
+            loader: "css-loader",
+            options: {
+                modules: true, // 指定启用css modules
+                localIdentName: '[name]_[local]-[hash:base64:5]' // 指定css的类名格式
+            }
+        }
+    ]
+}
+以上配置仍然添加<style>标签，但是多个css文件中的同名class将不再相互影响，在编译输出是class会变成如下格式：
+
+原class名
+
+.root {
+    background-color: rgb(168, 84, 247);
+    padding: 10px;
+    border: 3px solid #ccc;
+}
+
+编译输入类名
+ 
+.hello_root-5k3y4 {
+    background-color: rgb(197, 191, 191);
+    padding: 10px;
+    border: 3px solid #ccc;
+}
+
+html标签的class属性
+
+<div class="hello_root-5k3y4">this div with root class!</div>
+
+
+##########################################3.CSS预处理器
+
+Sass 和 Less 之类的预处理器是对原生CSS的拓展，它们允许你使用类似于variables, nesting, mixins, 
+inheritance等不存在于CSS中的特性来写CSS，CSS预处理器可以这些特殊类型的语句转化为浏览器可识别的CSS语句，
+
+你现在可能都已经熟悉了，在webpack里使用相关loaders进行配置就可以使用了，以下是常用的CSS 处理loaders:
+
+    Less Loader
+    Sass Loader
+    Stylus Loader
+
+不过其实也存在一个CSS的处理平台-PostCSS，它可以帮助你的CSS实现更多的功能，在其官方文档可了解更多相关知识。
+
+#############################################https://github.com/postcss/postcss
+
+
+举例来说如何使用PostCSS，我们使用PostCSS来为CSS代码自动添加适应不同浏览器的CSS前缀。
+
+首先安装postcss-loader 和 autoprefixer（自动添加前缀的插件）
+
+npm install --save-dev postcss-loader autoprefixer
+
+接下来，在webpack配置文件中添加postcss-loader，在根目录新建postcss.config.js,
+并添加如下代码之后，重新使用npm start打包时，你写的css会自动根据Can i use里的数据添加不同前缀了。
+
+//webpack.config.js
+{
+    loader: "postcss-loader"
+}
+
+// postcss.config.js
+module.exports = {
+    plugins: [
+        require('autoprefixer')
+    ]
+}
+
+//greeter.css
+
+.root {
+    ...
+    box-sizing: border-box;
+    display: flex;
+    ...
+}
+
+//编译后为
+.greeter_root-2tGfn {
+    ...
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    ...
+}
+
+
+
