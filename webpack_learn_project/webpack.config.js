@@ -74,7 +74,11 @@ module.exports = {
     plugins: [
         new webpack.BannerPlugin('版权所有，翻版必究'),
         new HtmlWebpackPlugin({
-            template: __dirname + "/app/index.template.html"
+            template: __dirname + "/app/index.template.html",
+            /* 下面的属性不太管用? */
+            /* title: "This is the result",
+            filename : "views/index.html", //output file's name
+            inject: "head" */
         }),
         new webpack.HotModuleReplacementPlugin()//热加载插件
     ]

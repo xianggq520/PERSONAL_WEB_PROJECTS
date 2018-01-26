@@ -86,7 +86,7 @@ module.exports = {
   }
 }
 
-注意:如果是window电脑，build需要配置为"build": "set NODE_ENV=production && webpack --config ./webpack.production.config.js --progress".谢谢评论区简友提醒。
+########注意:如果是window电脑，build需要配置为"build": "set NODE_ENV=production && webpack --config ./webpack.production.config.js --progress".谢谢评论区简友提醒。
 
 
 #############################################优化插件
