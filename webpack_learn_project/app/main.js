@@ -3,7 +3,7 @@
 document.querySelector("#root").appendChild(greet()); */
 
 import { React } from "react";
-import { ReactDOM} from "react-dom";
-import Greeter from "./greeter";
+import { render } from "react-dom";
+import Greeter from "./greeter.js";
 
-ReactDOM.render(<Greeter />, document.getElementById("root"));
+React.render(<Greeter />, document.getElementById("root"));

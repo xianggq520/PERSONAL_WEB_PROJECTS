@@ -1,0 +1,368 @@
+#查看系统内核版本等信息，格式：uname [-a]
+
+[root@localhost ~]# uname -a
+Linux localhost.localdomain 3.10.0-123.el7.x86_64 #1 SMP Mon May 5 11:16:57 EDT 2014 x86_64 x86_64 x86_64 GNU/Linux
+
+
+
+#查看系统详细版本信息就看redhat-release文件：cat /etc/redhat-release
+
+ 
+[root@localhost ~]# cat /etc/redhat-release 
+Red Hat Enterprise Linux Server release 7.0 (Maipo)
+
+
+#每隔1s查看一次负载情况: watch -n 1 uptime
+
+Every 1.0s: uptime                                                                                                  Sun Jan 28 10:53:10 2018
+
+ 10:53:10 up 30 min,  2 users,  load average: 0.01, 0.05, 0.13
+
+
+load average ：分别代表最近1分钟、5分钟、15分钟系统负载情况，越小越好，小于1是正常
+
+
+#free命令显示当前系统中内存的使用量情况，格式为：free [-m/-g]   -m 以m为单位显示
+
+[root@localhost ~]# free -m
+             total       used       free     shared    buffers     cached
+Mem:          1987       1682        305         10          0        327
+-/+ buffers/cache:       1354        633
+Swap:         2047          0       2047
+
+
+#who命令查看当前登入主机的用户情况
+
+[root@localhost ~]# who
+root     :0           2018-01-28 10:24 (:0)
+root     pts/0        2018-01-28 10:25 (:0)
+
+#last 命令用户查看所有系统的登入记录
+
+[root@localhost ~]# last
+root     pts/0        :0               Sun Jan 28 10:25   still logged in   
+root     :0           :0               Sun Jan 28 10:24   still logged in   
+(unknown :0           :0               Sun Jan 28 10:23 - 10:24  (00:00)    
+reboot   system boot  3.10.0-123.el7.x Sun Jan 28 18:23 - 11:01  (-7:-22)   
+linuxpro pts/2        192.168.74.1     Sun Jan 28 09:48 - 10:18  (00:29)
+
+
+#history 命令用于显示历史执行过的命令，格式：history [-c]   -c 清除记录
+
+[root@localhost ~]# history
+    1  history
+    2  ll
+    3  history
+
+#查看用户历史命令，保存与用户家目录下的.bash_history文件中
+
+[root@localhost ~]# cat ~/.bash_history 
+
+#history默认保存1000条命令，可以修改/etc/profile文件中的histsize字段
+
+
+#################sosreport命令用于收集系统配置并诊断信息后输出结论文档，格式为：sosreport
+
+#pwd命令显示当前目录，格式：pwd [-P]   -P显示真实路径（非快捷链接的地址）
+
+#cd命令用于切换工作路径，格式：cd [目录名称]
+
+	cd -  切换到上一次的目录
+	cd ~  切换到家目录
+	cd ~username  切换到/home/username
+	cd .. 切换到上一级目录
+
+
+#cat命令，文本文件编辑命令，格式为：cat [选项][文件]
+
+ -n 显示行号
+ -b 显示行号  （不包括空行）
+ -A 显示“不可见符号” 如：tab
+
+
+#more命令查看较长的纯文本文件，格式为：more [选项] 文件
+
+	-数字  预先显示的行数
+	-d     提示语与报错
+
+	enter,向下翻
+
+
+#head命令查看文本文件的前N行，格式为：head [选项] [文件]
+
+	-n 10   显示10行
+	-n -10  同cat命令，但是不显示最后的10行
+
+#tail命令查看文本文件的后N行，格式为：tail [选项][文件]
+
+	-n 10   显示最后的10行
+	-f      持续刷新显示的内容  tailf 查看日志
+
+
+#od命令查看特殊格式的文件，格式为：od [选项][文件]
+
+	-t a    默认字符
+	-t c    ascii字符
+	-t o    八进制
+	-t d    十进制
+	-t x	十六进制
+	-t f	浮点数
+
+
+#tr命令转换文本文件中的字符，格式： tr [原始字符] [目标字符]
+	
+如：将tr.txt 文件中的内容转换成大写。tr.txt内容为  ASDSFFWEFWEF
+
+	cat tr.txt | tr [a-z][A-Z]
+
+
+#wc命令用于统计指定文本文件的行数，字数，字节数，格式为：wc [参数】 文本
+
+	-l	只显示行数
+	-w	只显示单词数
+	-c	只显示字节数
+
+	如：统计当前系统中的用户个数：wc -l /etc/passwd
+
+
+#cut命令用于通过列来提取文件字符，格式：cut [参数] 文本
+
+	-d 分隔符      指定分隔符，默认为tab
+	-f	       指定显示的列数
+	-c	       单位改为字符
+
+	如：cat -d:f1 /etc/passwd
+	如：grep ^root /etc/passwd | cut -d:-f7  获取root用户的第七列
+
+
+		
+#diff命令比较多个文件的差异，格式为：diff [参数] 文件 
+
+	-b 	忽略空格引起的差异
+	-B 	忽略空行引起的差异
+	--brief、-q  	仅仅报告是否有差异
+	-c	使用上下文输出格式
+
+
+
+####################常用系统工作命令
+
+# echo  echo 命令用于在终端输出字符串或变量提取后的值，格式为“echo [字符串 | $变量]”。
+
+# date  date 命令用于显示及设置系统的时间或日期，格式为“date [选项] [+指定的格式]”。
+
+# reboot  reboot 命令用于重启系统，其格式为 reboot。
+
+# poweroff  poweroff 命令用于关闭系统，其格式为 poweroff。
+
+# wget  wget 命令用于在终端中下载网络文件，格式为“wget [参数] 下载地址”。
+
+# ps  ps 命令用于查看系统中的进程状态，格式为“ps [参数]”。 ps -aux
+
+# top  top 命令用于动态地监视进程活动与系统负载等信息，其格式为 top。“强化版的
+Windows 任务管理器”
+
+# pidof  pidof 命令用于查询某个指定服务进程的 PID 值，格式为“pidof [参数] [服务名称]”。
+	 
+	[root@localhost ~]# pidof sshd
+		6559 1696
+# kill  kill 命令用于终止某个指定 PID 的服务进程，格式为“kill [参数] [进程 PID]”。
+
+# killall  killall 命令用于终止某个指定名称的服务所对应的全部进程，格式为：“killall [参数] [进
+程名称]”。
+
+
+####################系统状态检测命令
+
+# ifconfig 命令用于获取网卡配置与网络状态等信息，格式为“ifconfig [网络设备] [参数]”。
+
+# uname 命令用于查看系统内核与系统版本等信息，格式为“uname [-a]”。
+
+# uptime 用于查看系统的负载信息，格式为 uptime。
+
+# free 用于显示当前系统中内存的使用量信息，格式为“free [-h]”。
+
+# who 用于查看当前登入主机的用户终端信息，格式为“who [参数]”。
+
+# last 命令用于查看所有系统的登录记录，格式为“last [参数]”。
+
+# history 命令用于显示历史执行过的命令，格式为“history [-c]”。
+
+
+历史命令会被保存到用户家目录中的.bash_history 文件中。Linux 系统中以点（.）开
+头的文件均代表隐藏文件，这些文件大多数为系统服务文件，可以用 cat 命令查看其文件
+内容。
+[root@linuxprobe ~]# cat ~/.bash_history
+要清空当前用户在本机上执行的 Linux 命令历史记录信息，可执行如下命令：
+[root@linuxprobe ~]# history -c
+
+
+# sosreport 命令用于收集系统配置及架构信息并输出诊断文档，格式为 sosreport。
+
+
+####################工作目录切换命令
+
+
+# pwd 命令用于显示用户当前所处的工作目录，格式为“pwd [选项]”。
+
+# cd 命令用于切换工作路径，格式为“cd [目录名称]”。
+
+# ls 命令用于显示目录中的文件信息，格式为“ls [选项] [文件] ”。  ls -alhd
+
+
+
+####################文本文件编辑命令
+
+# cat 命令用于查看纯文本文件（内容较少的），格式为“cat [选项] [文件]”。
+
+# more 命令用于查看纯文本文件（内容较多的），格式为“more [选项]文件”。
+
+# head 命令用于查看纯文本文档的前 N 行，格式为“head [选项] [文件]”。
+
+# tail 命令用于查看纯文本文档的后 N 行或持续刷新内容，格式为“tail [选项] [文件]”。
+
+tail 命令的操作方法与 head 命令非常相似，只需要执行“tail -n 20 文件名”
+
+tail 命令最强悍的功能是可以持续刷新一个文件的内容，当想要实时查看最新日志文件时，这特别有用，此时的命令格式为“tail -f 文件名”
+
+# tr 命令用于替换文本文件中的字符，格式为“tr [原始字符] [目标字符]”。
+
+cat anaconda-ks.cfg | tr [a-z] [A-Z]   把anaconda-ks.cfg文本内容中的英文全部替换为大写
+  
+# wc 命令用于统计指定文本的行数、字数、字节数，格式为“wc [参数] 文本”。 -l 行、-w 单词、 -c 字节数
+
+wc -l /etc/passwd
+
+# stat 命令用于查看文件的具体存储信息和时间等信息，格式为“stat 文件名称”。stat 命令可以用于查看文件的存储信息和时间等信息
+
+# cut 命令用于按“列”提取文本字符，格式为“cut [参数] 文本”。
+
+cut -d: -f1 /etc/passwd  提取出 passwd 文件中的用户名信息，即提取以冒号（：）为间隔符号的第一列内容
+
+# diff 命令用于比较多个文本文件的差异，格式为“diff [参数] 文件”。
+
+
+
+####################文件目录管理命令
+
+# touch 命令用于创建空白文件或设置文件的时间，格式为“touch [选项] [文件]”
+
+对 touch 命令来讲，有难度的操作主要是体现在设置文件内容的修改时间（mtime）、文件权限或属性的更改时间（ctime）与文件的读取时间（atime）上面
+-a 仅修改“读取时间”（atime）
+-m 仅修改“修改时间”（mtime）
+-d 同时修改 atime 与 mtime
+
+touch -d "2017-05-04 15:44" anaconda-ks.cfg   
+
+# mkdir 命令用于创建空白的目录，格式为“mkdir [选项] 目录”。
+
+mkdir命令还可以结合-p 参数来递归创建出具有嵌套叠层关系的文件目录 mkdir -p a/b/c/d/e
+
+# cp 命令用于复制文件或目录，格式为“cp [选项] 源文件 目标文件”。
+
+-p 保留原始文件的属性
+-d 若对象为“链接文件”，则保留该“链接文件”的属性
+-r 递归持续复制（用于目录）
+-i 若目标文件存在则询问是否覆盖
+-a 相当于-pdr（p、d、r 为上述参数）
+
+# mv 命令用于剪切文件或将文件重命名，格式为“mv [选项] 源文件 [目标路径|目标文件名]”。
+
+剪切操作不同于复制操作，因为它会默认把源文件删除掉，只保留剪切后的文件。如果在同一个目录中对一个文件进行剪切操作，其实也就是对其进行重命名
+
+# rm 命令用于删除文件或目录，格式为“rm [选项] 文件”。
+
+在 Linux 系统中删除文件时，系统会默认向您询问是否要执行删除操作，如果不想总是看到这种反复的确认信息，可在 rm 命令后跟上-f 参数来强制删除
+
+另外，想要删除一个目录，需要在 rm 命令后面一个-r 参数才可以，否则删除不掉
+
+### dd 命令用于按照指定大小和个数的数据块来复制文件或转换文件，格式为“dd [参数]”。
+
+dd 命令是一个比较重要而且比较有特色的一个命令，它能够让用户按照指定大小和个数的数据块来复制文件的内容。当然如果愿意的话，
+还可以在复制过程中转换其中的数据。Linux系统中有一个名为/dev/zero 的设备文件，每次在课堂上解释它时都充满哲学理论的色彩。因为这个文件不会占用系统存储空间，
+但却可以提供无穷无尽的数据，因此可以使用它作为dd命令的输入文件，来生成一个指定大小的文件。
+
+if 输入的文件名称
+of 输出的文件名称
+bs 设置每个“块”的大小
+count 设置要复制“块”的个数
+
+例如我们可以用 dd 命令从/dev/zero 设备文件中取出一个大小为 560MB 的数据块，然后
+保存成名为 560_file 的文件。在理解了这个命令后，以后就能随意创建任意大小的文件了：
+
+
+[root@linuxprobe ~]# dd if=/dev/zero of=560_file count=1 bs=560M
+1+0 records in
+1+0 records out
+587202560 bytes (587 MB) copied, 27.1755 s, 21.6 MB/s
+
+在 Linux 系统中可以直接使用 dd 命令来压制出光盘镜像文件，将它变成一个可立即使用的 iso 镜像：
+
+[root@linuxprobe ~]# dd if=/dev/cdrom of=RHEL-server-7.0-x86_64-LinuxProbe.Com.iso
+
+
+# file 命令用于查看文件的类型，格式为“file 文件名”。
+
+在 Linux 系统中，由于文本、目录、设备等所有这些一切都统称为文件，而我们又不能单凭后缀就知道具体的文件类型，这时就需要使用 file 命令来查看文件类型了。
+
+[root@linuxprobe ~]# file anaconda-ks.cfg
+anaconda-ks.cfg: ASCII text
+[root@linuxprobe ~]# file /dev/sda
+/dev/sda: block special
+
+
+
+####################打包压缩与搜索命令
+
+# tar 命令用于对文件进行打包压缩或解压，格式为“tar [选项] [文件]”。
+
+-f 参数特别重要，它必须放到参数的最后一位，代表要压缩或解压的软件包名称
+
+[root@linuxprobe ~]# tar -czvf etc.tar.gz /etc     将/etc目录打包成gzip格式的压缩包
+
+[root@linuxprobe ~]# tar xzvf etc.tar.gz -C etc    将etc.tar.gz按gzip格式解压到etc目录下
+
+[root@localhost temp]# rm -f etc
+rm: 无法删除"etc": 是一个目录
+[root@localhost temp]# rm -rf etc
+[root@localhost temp]# ll
+总用量 8524
+-rw-r--r--. 1 root root 8726295 1月  28 21:10 etc.tar.gz
+[root@localhost temp]# rm -rf etc.tar.gz 
+[root@localhost temp]# ll
+总用量 0
+
+
+# grep 命令用于在文本中执行关键词搜索，并显示匹配的结果，格式为“grep [选项] [文件]”。
+
+-b 将可执行文件（binary）当作文本文件（text）来搜索
+-c 仅显示找到的行数
+-i 忽略大小写
+-n 显示行号
+-v 反向选择—仅列出没有“关键词”的行
+
+最常用的参数：-n 参数用来显示搜索到信息的行号；-v 参数用于反选信息（即没有包含关键词的所有信息行）
+
+在 Linux 系统中，/etc/passwd 文件是保存着所有的用户信息，而一旦用户的登录终端被设置成/sbin/nologin，
+则不再允许登录系统，因此可以使用 grep 命令来查找出当前系统中不允许登录系统的所有用户信息：
+
+[root@localhost temp]# grep /sbin/nologin /etc/passwd
+
+[root@localhost temp]# grep -nv /sbin/nologin /etc/passwd
+
+# find 命令用于按照指定条件来查找文件，格式为“find [查找路径] 寻找条件 操作”。
+
+[root@localhost temp]# find /etc -name "host*" -print
+
+/etc/avahi/hosts
+/etc/host.conf
+/etc/hosts
+/etc/hosts.allow
+/etc/hosts.deny
+/etc/selinux/targeted/modules/active/modules/hostname.pp
+/etc/hostname
+
+
+在整个文件系统中找到所有将归属于linuxprobe用户的文件并复制到 findresults目录下：
+[root@linuxprobe ~]# find / -user linuxprobe -exec cp -a {} findresults/ \;
+

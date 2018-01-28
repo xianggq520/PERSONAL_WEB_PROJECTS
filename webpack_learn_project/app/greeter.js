@@ -6,9 +6,11 @@ module.exports = function(){
 } */
 
 import React, { Component } from "react";
-import { config } from "./config.json";
 
-class Greeter extends Component {
+const config = require("./config.json")
+console.log(React,Component)
+
+class Greeter extends React.Component {
     render(){
         return (
             <div>

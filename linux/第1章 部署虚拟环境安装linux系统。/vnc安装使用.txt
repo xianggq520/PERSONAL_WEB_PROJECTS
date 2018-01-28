@@ -1,0 +1,103 @@
+﻿[root@localhost yum.repos.d]# vim /etc/yum.repos.d/rhel.repo
+
+#写入：start----------------------------------
+[rhel]
+name=rhel
+baseurl=file:///media/cdrom
+enabled=1
+gpgcheck=0
+
+#写入：end----------------------------------
+
+[root@localhost yum.repos.d]# mkdir /media/cdrom
+
+[root@localhost yum.repos.d]# df -h
+文件系统               容量  已用  可用 已用% 挂载点
+/dev/mapper/rhel-root   18G  2.9G   15G   17% /
+devtmpfs               985M     0  985M    0% /dev
+tmpfs                  994M  140K  994M    1% /dev/shm
+tmpfs                  994M  8.8M  986M    1% /run
+tmpfs                  994M     0  994M    0% /sys/fs/cgroup
+/dev/sda1              497M  119M  379M   24% /boot
+/dev/sr0               3.5G  3.5G     0  100% /run/media/root/RHEL-7.0 Server.x86_64
+
+[root@localhost yum.repos.d]# umount /dev/sr0
+[root@localhost yum.repos.d]# mount /dev/cdrom /media/cdrom
+mount: /dev/sr0 写保护，将以只读方式挂载
+
+
+[root@localhost ~]# yum install tigervnc-server
+
+安装大小：489 k
+Is this ok [y/d/N]: Y
+
+#如果以上命令失败，可以执行以下命令：
+----------------------------------
+[root@localhost ~]# yum clean all
+[root@localhost ~]# yum makecache
+----------------------------------
+
+#关闭防火墙
+[root@localhost ~]# iptables -F
+
+#修改网络配置
+[root@localhost ~]# nmtui
+
+
+#重启网络服务
+[root@localhost ~]# systemctl restart network
+
+#编辑网络连接
+[root@localhost ~]# nm-connection-editor
+-------------------------------------
+常规：勾选可用时自动连接网络
+IPv4设置：方法-》选择自动(DCHP)
+保存
+-------------------------------------
+
+#复制配置文件
+[root@localhost ~]# cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@:3.service
+
+#修改配置文件
+[root@localhost ~]# vim /etc/systemd/system/vncserver@\:3.service 
+
+#两行 <user>
+	40 ExecStart=/sbin/runuser -l <user> -c "/usr/bin/vncserver %i"
+ 	41 PIDFile=/home/<user>/.vnc/%H%i.pid
+#改成 linuxprobe
+ 	40 ExecStart=/sbin/runuser -l linuxprobe -c "/usr/bin/vncserver %i"
+ 	41 PIDFile=/home/linuxprobe/.vnc/%H%i.pid
+
+#切换用户
+[root@localhost ~]# su - linuxprobe
+
+#初始化vnc服务
+[linuxprobe@localhost ~]$ vncserver
+
+#退回root用户
+[linuxprobe@localhost ~]$ exit
+
+#启动vnc服务
+[root@localhost ~]# systemctl start vncserver@:3.service
+
+#上面命令提示错误，可以输入一下命令
+[root@localhost ~]# systemctl enable vncserver@:3.service
+
+
+#如果start报错，执行systemctl status vncserver@:3.service查看具体情况，如果是一下情况：
+
+[root@localhost ~]# systemctl status vncserver@:3.service
+vncserver@:3.service - Remote desktop service (VNC)
+   Loaded: loaded (/etc/systemd/system/vncserver@:3.service; enabled)
+   Active: failed (Result: exit-code) since 日 2018-01-28 18:51:10 CST; 2min 5s ago
+  Process: 1721 ExecStart=/sbin/runuser -l linuxprobe -c /usr/bin/vncserver %i (code=exited, status=2)
+  Process: 1692 ExecStartPre=/bin/sh -c /usr/bin/vncserver -kill %i > /dev/null 2>&1 || : (code=exited, status=0/SUCCESS)
+
+可以删除/tmp/.X11-unix/目录下的所有文件，然后start，最好再执行下iptables -F
+
+
+
+
+
+
+

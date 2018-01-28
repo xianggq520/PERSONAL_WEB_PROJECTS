@@ -1,0 +1,30 @@
+重置root密码(证书考题)
+
+1.要先确定是否为RHEL 7系统。如果是，然后再进行下面的操作。
+	[root@linuxprobe ~]# cat /etc/redhat-release 
+	Red Hat Enterprise Linux Server release 7.0 (Maipo)
+	
+2.步骤：
+	第1步：重启Linux系统主机并出现引导界面时，按下键盘上的e键进入内核编辑界面。
+	第2步：在linux16参数这行的最后面追加“rd.break”参数，然后按下Ctrl + X组合键来运行修改过的内核程序。
+	第3步：大约30秒过后，进入到系统的紧急求援模式。
+	第4步：依次输入以下命令，等待系统重启操作完毕，然后就可以使用新密码linuxprobe来登录Linux系统了。
+
+第一种方式：
+	1.输入 mount -o remount,rw /sysroot
+	2.输入 chroot /sysroot
+	3.输入 echo "新密码" | passwd --stdin root
+	4.输入 touch ./autorelabel
+	5.输入 exit 
+	6.输入 reboot 重启
+
+第二种方式：
+	1.重启系统，启动界面按e键，然后在linux16开头的段落末尾加上rd.break，然后ctrl+x重启进入Linux系统的紧急救援模式
+	2.输入 mount -o remount,rw /sysroot
+	3.输入 chroot /sysroot
+	4.输入 passwd
+	5.输入 new password
+	6.输入 new password again
+	7.输入 touch /.autorelabel
+	8.输入 exit 
+	9.输入 reboot 重启
