@@ -11,10 +11,18 @@ module.exports = {
         __dirname + "/app/main.1.js"
     ],  */
     output: {
-        path: __dirname + "/build",
+        path: path.resolve(__dirname, './build'),
         publicPath: '/', // prod模式中处理loader中的url
-        filename: "[name].bundle.[hash].js",
-        chunkFilename: '[id].[hash].js'
+        filename: "static/js/[name].bundle.[hash].js",
+        chunkFilename: 'static/js/[id].[hash].js'
+    },
+    resolve: {
+        extensions: ['.js', '.jsx', '.json'],
+        alias: {
+          'src': path.resolve(__dirname, './src'),
+          'assets': path.resolve(__dirname, './src/assets'),
+          'components': path.resolve(__dirname, './src/components')
+        }
     },
     devtool: 'null', //注意修改了这里，这能大大压缩我们的打包代码
     devServer: {
@@ -74,7 +82,8 @@ module.exports = {
     plugins: [
         new webpack.BannerPlugin('版权所有，翻版必究'),
         new HtmlWebpackPlugin({
-            template: __dirname + "/app/index.template.html" //new 一个这个插件的实例，并传入相关的参数
+            template: __dirname + "/app/index.template.html", //new 一个这个插件的实例，并传入相关的参数
+            //filename: path.join('static/views','index.html') // 输入html别名和路径
         }),
         new webpack.HotModuleReplacementPlugin(), //热加载插件
         new webpack.optimize.OccurrenceOrderPlugin(),
