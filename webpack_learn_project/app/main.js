@@ -3,6 +3,7 @@ var hello = require("./hello");
 
 import './other.css';
 
+
 import './main.css';//使用import导入css文件
 //require("./main.css");//使用require导入css文件
 
