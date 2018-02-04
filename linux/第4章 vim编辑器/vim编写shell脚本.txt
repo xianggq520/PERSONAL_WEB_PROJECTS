@@ -1,0 +1,288 @@
+########################第一个shell脚本
+
+    1.创建脚本 vim example.sh，并且写入
+        #！/bin/bash
+        # desc
+        pwd
+        ls -alh
+    
+    2.脚本的执行
+        a. bash example.sh      用 bash 解释器命令直接运行 Shell 脚本文件外
+        b. ./example.sh         输入完整路径的方式来执行
+
+    3.完整路径执行脚本权限不足，修改可执行权限
+
+        chmod u+x example.sh
+
+
+########################接收脚本参数   
+
+    1.$0  脚本名
+    2.$#    参数个数
+    3.$*    所有参数值
+    4.$1 ... $n    1-n个参数值
+    5.$?    上一个脚本执行的返回结果
+
+
+########################参数测试语句
+
+    1.格式 [空格 条件表达式 空格]
+    2.条件表达式
+        a.文件测试语句
+            -d   目录
+            -e   是否存在
+            -f   一般文件
+            -r   可读权限
+            -w   可写权限
+            -x   可执行权限
+
+        例子：[ -f /etc/fstab ]
+              echo $?
+
+        b.逻辑测试语句
+            && 与
+            || 或
+            ！ 非
+
+        c.整数值测试语句
+            -eq 是否等于
+            -ne 是否不等于
+            -lt 是否小于
+            -gt 是否大于
+            -le 是否小于或等于
+            -ge 是否大于或等于
+
+            如：  [ 10 -gt 10 ]   ->  1
+                  [ 10 -eq 10 ]    ->  0
+
+        d.字符串比较语句 
+            =        内容是否相同
+            ！=      内容不同
+            -z       内容为空
+
+            如：
+                [root@localhost temp]# [ -z '' ]
+                [root@localhost temp]# echo $?
+                0
+                [root@localhost temp]# [ -z '1' ]
+                [root@localhost temp]# echo $?
+                1
+    
+        案例：
+        free 命令，它可以用来获取当前系统正在使用及可用的内存量信息。
+        接下来先使用 free -m 命令查看内存使用量情况（单位为 MB），然后通过 grep Mem:命令过滤
+        出剩余内存量的行，再用 awk '{print $4}'命令只保留第四列，最后用 FreeMem=`语句`的方式
+        把语句内执行的结果赋值给变量。
+
+        [root@localhost temp]# free -m
+
+                        total       used       free     shared    buffers     cached
+            Mem:          1987        819       1168          8          1        374
+            -/+ buffers/cache:        443       1544
+            Swap:         2047          0       2047
+
+        [root@localhost temp]# free -m | grep Mem:
+
+            Mem:          1987        819       1168          8          1        374
+
+        [root@localhost temp]# free -m | grep Mem:| awk '{print $4}'
+
+            1167
+
+        [root@localhost temp]# FreeMem=`free -m | grep Mem: | awk '{print $4}'`
+
+        [root@localhost temp]# echo $FreeMem
+
+            1167
+
+
+
+########################流程控制语句
+
+    1.if条件测试语句
+
+        if 
+            then
+        fi
+
+        如1：
+            #!/bin/bash
+            # make /cdrom dir .sh
+
+            DIR="/media/cdrom"
+            if [ ! -e $DIR ]
+                    then
+                            mkdir -p $DIR
+            fi
+
+        如2：
+            
+            #!/bin/bash
+            #...
+
+            ping -c 3 -i 0.2 -w 3 $1 &> /dev/null
+
+            if [ $? -eq 0 ]
+            then
+                    echo "Host $1 is on-line."
+            else
+                    echo "Host $1 is off-line"
+            fi
+
+        如3：
+            #!/bin/bash
+            #...
+
+            read -p "Enter you score (0-100):" GRADE
+
+            if [ $GRADE -ge 85 ] && [ $GRADE -le 100 ];then
+            echo "$GRADE is Excellent"
+            elif [ $GRADE -ge 70 ] && [ $GRADE -le -84 ];then
+            echo "$GRADE is Pass"
+            else
+            echo "$GRADE is Fail"
+            fi
+
+    2.for条件循环语句
+
+        for 变量名  in 取值列表
+        do
+            命令序列
+        done
+
+
+        如：
+            a.vim users.txt
+
+                sunshasha
+                xiangguoqing
+
+            b.vim addusers.sh
+
+            #!/bin/bash
+            # desc
+
+            read -p "Enter the user's password:" PASSWD
+            for UNAME in `cat users.txt`
+            do
+                id $UNAME &> /dev/null
+                if [ $? -eq 0 ] 
+                then
+                    echo "user has exists!"
+                else
+                    useradd $UNAME &> /dev/null
+                    echo "$PASSWD" | passwd --stdin $UNAME &> /dev/null
+                    if [ $? -eq 0 ]
+                    then
+                        echo "$UNAME, create success"
+                    else
+                        echo "$UNAME, create failure"
+                    fi
+                fi
+            done
+
+
+            c.tail -6 /etc/passwd
+
+    3.while条件循环语句
+
+        while
+        do
+            命令序列
+        done
+
+        如：
+
+            #!/bin/bash
+            # $RANDOM 变量来调取出一个随机的数值（范围为 0～32767）
+            PRICE=$(expr $RANDOM % 1000)
+            TIMES=0
+            echo "商品实际价格为0-999之间，猜猜看是什么？"
+            while true
+            do
+            read -p "请输入您猜测的价格数目：" INT
+            let TIMES++
+            if [ $INT -eq $PRICE ] ; then
+            echo "恭喜您答对了 $TIMES 次"
+            exit 0
+            elif [ $INT -gt $PRICE ] ; then
+            echo "太高了！"
+            else
+            echo "太低了！"
+            fi
+            done
+
+    4.case条件测试语句
+
+        case 变量值 in 
+        模式1)
+            命令序列1
+            ;;
+        模式2)
+            命令序列2
+            ;;
+            ...
+            ...
+        *)
+            默认命令序列
+        esac
+
+
+        如：
+
+            #!/bin/bash
+            #
+
+            read -p "请输入一个字符，并按Enter键确认：" KEY
+            case "$KEY" in
+            [a-z]|[A-Z])
+            echo "您输入的是字母。"
+            ;;
+            [0-9])
+            echo "您输入的是数字。"
+            ;;
+            *)
+            echo "您输入的是空格、功能键或者其他控制字符。"
+            esac
+
+
+
+########################计划任务服务程序
+
+    1.我们可以用 at命令实现这种功能，只需要写成“at 时间”的形式就可以。
+    如果想要查看已设置好但还未执行的一次性计划任务，
+    可以使用“at -l”命令；要想将其删除，可以用“atrm 任务序号”。
+
+    如：
+
+    [root@linuxprobe ~]# at 23:30
+        at > systemctl restart httpd
+        at > 此处请同时按下 Ctrl + D 组合键来结束编写计划任务
+        job 3 at Mon Apr 27 23:30:00 2017
+    [root@linuxprobe ~]# at -l
+        3 Mon Apr 27 23:30:00 2017 a root
+
+    2.如果我们希望 Linux 系统能够周期性地、有规律地执行某些具体的任务，那么 Linux 系统
+    中默认启用的 crond 服务简直再适合不过了。创建、编辑计划任务的命令为“crontab -e”，查看
+    当前计划任务的命令为“crontab -l”，删除某条计划任务的命令为“crontab -r”。另外，如果您是
+    以管理员的身份登录的系统，还可以在 crontab 命令中加上-u 参数来编辑他人的计划任务。
+    在正式部署计划任务前，请先跟刘遄老师念一下口诀“分、时、日、月、星期 命令”。
+    这是使用 crond 服务设置任务的参数格式（其格式见表 4-6）。需要注意的是，如果有些字段
+    没有设置，则需要使用星号（*）占位
+
+    [root@linuxprobe temp]# crontab -e
+    crontab: installing new crontab
+    [root@linuxprobe temp]# crontab -l
+
+        51 0 * * 1,2,3,4,5 /usr/bin/tar -czvf /root/temp/backup.tar.gz /root/temp
+
+    需要说明的是，除了用逗号（,）来分别表示多个时间段，例如“8,9,12”表示 8 月、9 月
+    和 12 月。还可以用减号（-）来表示一段连续的时间周期（例如字段“日”的取值为“12-15”，
+    则表示每月的 12～15 日）。以及用除号（/）表示执行任务的间隔时间（例如“*/2”表示每隔
+    2 分钟执行一次任务）。
+    如果在 crond 服务中需要同时包含多条计划任务的命令语句，应每行仅写一条。例如我们再
+    添加一条计划任务，它的功能是每周一至周五的凌晨 1 点钟自动清空/tmp 目录内的所有文件。尤
+    其需要注意的是，在 crond 服务的计划任务参数中，所有命令一定要用绝对路径的方式来写，如
+    果不知道绝对路径，请用 whereis 命令进行查询，rm 命令路径为下面输出信息中加粗部分。
+
+    
