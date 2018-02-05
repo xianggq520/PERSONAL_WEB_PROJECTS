@@ -1,0 +1,58 @@
+########################
+    a 在光标当前位置后面输入内容
+    i 在光标当前位置前面输入内容
+    o 在光标当前行下创建新行后输入内容
+    wq! 强制保存并退出文档
+
+########################配置主机名称
+
+    1.使用 Vim 编辑器修改“/etc/hostname”主机名称文件。
+    2.把原始主机名称删除后追加“linuxprobe.com”。注意，使用 Vim 编辑器修改主机名称文件后，要在末行模式下执行:wq!命令才能保存并退出文档。
+    3.保存并退出文档，然后使用 hostname 命令检查是否修改成功。
+
+########################配置网卡信息
+
+    1.首先切换到/etc/sysconfig/network-scripts 目录中（存放着网卡的配置文件）。
+        cd /etc/sysconfig/network-scripts/
+    2.使用 Vim 编辑器修改网卡文件 ifcfg-eno16777736，逐项写入下面的配置参数并保存退出。
+
+        vim ifcfg-eno16777736
+
+        TYPE=Ethernet
+        BOOTPROTO=static
+        NAME=eno16777736
+        ONBOOT=yes
+        IPADDR=192.168.10.10
+        NETMASK=255.255.255.0
+        GATEWAY=192.168.10.1
+        DNS1=192.168.10.1
+    
+    3.systemctl restart network  重启网络服务
+
+    4.ping 192.168.10.10 测试是否成功
+
+########################配置 Yum 软件仓库
+
+    1.进入到/etc/yum.repos.d/目录中（因为该目录存放着 Yum 软件仓库的配置文件）。
+    2.使用 Vim 编辑器创建一个名为 rhel7.repo 的新配置文件（文件名称可随意，但后缀必须为.repo），逐项写入下面加粗的配置参数并保存退出（不要写后面的中文注释）。
+        [rhel-media]                    Yum 软件仓库唯一标识符，避免与其他仓库冲突。
+        name=linuxprobe                 Yum 软件仓库的名称描述，易于识别仓库用处。
+        baseurl=file:///media/cdrom     提供的方式包括 FTP（ftp://..）、HTTP（http://..）、本地（file://..）。
+        enabled=1                       设置此源是否可用；1 为可用，0 为禁用。
+        gpgcheck=0                      设置此源是否校验文件；1 为校验，0 为不校验。
+        gpgkey=file:///media/cdrom/RPM-GPG-KEY-redhat-release       若上面参数开启校验，那么请指定公钥文件地址。
+
+    3.按配置参数的路径挂载光盘，并把光盘挂载信息写入到/etc/fstab 文件中。
+
+        mkdir -p /media/cdrom               #创建挂载点
+        mount /dev/cdrom  /media/cdrom      #挂载
+
+        vim /etc/fstab                      #设置成开机自动挂载
+        #追加写入内容
+        /dev/cdrom  /media/cdrom    iso9660     defaults        0       0
+
+    4.测试安装  yum install httpd
+
+
+########################
+
