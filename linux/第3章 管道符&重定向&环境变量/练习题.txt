@@ -1,54 +1,54 @@
-1.ͨ����׼����ض��� man bash ����ԭ��Ҫ�������Ļ����Ϣд�뵽�ļ� readme.txt �У�Ȼ����ʾ readme.txt �ļ��е�����
+﻿1.通过标准输出重定向将 man bash 命令原本要输出到屏幕的信息写入到文件 readme.txt 中，然后显示 readme.txt 文件中的内容
 
 
-2.Ȼ����ͨ��׷��д��ģʽ���ļ���д��һ������
+2.然后再通过追加写入模式向文件再写入一次数据 
 
 
-3.��ls ����ı�׼������׷��д��ָ���ļ���
+3.将ls 命令的标准输出结果追加写入指定文件中
 
 
-4.��ls ����Ĵ�������ض���д�뵽ָ�����ļ���
+4.将ls 命令的错误输出重定向写入到指定的文件中
 
 
-5.����wc -l ������ͳ��ָ���ļ����������������ض���ķ�ʽ
+5.利用wc -l 命令来统计指定文件的行数，用输入重定向的方式
 
 
-6.�ҳ������б����Ƶ�¼ϵͳ���û�����ͳ������                                 
+6.找出了所有被限制登录系统的用户，并统计数量                                 
 
 
-�ҳ������Ƶ�¼�û��������� grep "/sbin/nologin" /etc/passwd
-ͳ���ı��������������� wc -l
+找出被限制登录用户的命令是 grep "/sbin/nologin" /etc/passwd
+统计文本行数的命令则是 wc -l
                                           
 
-7.��ҳ��ʾls�����������ݡ��磺��ҳ�Ķ�  ls -l /etc ��������
+7.分页显示ls命令的输出内容。如：分页阅读  ls -l /etc 命令的输出
 
 
-8.ʹ��һ������������������ò������ѹܵ����� passwd �����--stdin ��������
+8.使用一条命令来完成密码重置操作，把管道符和 passwd 命令的--stdin 参数相结合
 
 
-9.���õ�������ʵ�ֶ��������ʼ�����
+9.利用单行命令实现多行内容邮件发送
 
 
 [root@linuxprobe ~]# mail -s "Readme" root@linuxprobe.com << over
 
 
-10.�����鿴����Ӳ���ļ������Ȩ������
+10.批量查看所有硬盘文件的相关权限属性
 
 [root@linuxprobe ~]# ls -l /dev/sda*
 
 
-11.���廷������price=5,Ȼ����echo��� price is 5�� price is $5��price is $price
+11.定义环境变量price=5,然后用echo输出 price is 5、 price is $5、price is $price
 
 
-12.��Ϊʲô���ܽ���ǰĿ¼��.�����ӵ� PATH ����? �� 
+12.“为什么不能将当前目录（.）添加到 PATH 中呢? ” 
 
-ԭ���ǣ����ܿ��Խ���ǰĿ¼��.�����ӵ� PATH �����У��Ӷ���ĳЩ����¿������û���ȥ��������
-����·�����鷳�����ǣ�����ڿ��ڱȽϳ��õĹ���Ŀ¼/tmp �д����һ���� ls �� cd ����ͬ
-����ľ���ļ������û���ǡ���ڹ���Ŀ¼��ִ������Щ�����ô�ͼ��п��������ˡ�
+原因是，尽管可以将当前目录（.）添加到 PATH 变量中，从而在某些情况下可以让用户免去输入命令
+所在路径的麻烦。但是，如果黑客在比较常用的公共目录/tmp 中存放了一个与 ls 或 cd 命令同
+名的木马文件，而用户又恰巧在公共目录中执行了这些命令，那么就极有可能中招了。
 
 
-13.PATH ������������ʲô��
+13.PATH 变量的作用是什么？
 
-�趨������������ִ�е������·����
+设定解释器搜索所执行的命令的路径。
 
 
