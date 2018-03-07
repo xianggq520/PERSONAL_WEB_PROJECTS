@@ -1,0 +1,17 @@
+map
+
+
+不重复数据存储
+类似于object
+但是键值不一定是字符串，可以使任何类型的键
+map.set(key, value)新增集合元素
+map.get(key)获取集合元素
+map.delete(key)删除集合元素
+map.has(key)是否存在
+map.clear()情况集合
+map.keys()获取key集合
+map.values()获取value集合
+map.entries()获取元素集合
+map.forEach((value, key)=>{})编辑map
+
+

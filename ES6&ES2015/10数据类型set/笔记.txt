@@ -1,0 +1,8 @@
+set
+
+数据不重复
+set.size属性表示集合中元素的个数
+set.add(el)新增元素，成功返回 true, 否则返回false
+set.delete(el)删除元素，成功返回 true, 否则返回false
+set.has(el)判断是set中否存在元素，包含元素则返回true, 否则返回false
+set.clear()清空结合

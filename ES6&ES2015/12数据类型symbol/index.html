@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>数据类型-symbol</title>
+</head>
+<body>
+    <script>
+        // 特点  symbol新的基本类型，创建独一无二的值，解决对象中字符串属性容易冲突的问题
+        // 对象的属性可以是字符串类型，也可以是symbol类型
+        
+        let str = Symbol("name");
+
+        let str2 = Symbol("name");
+
+        let obj = {};
+
+        obj[str] = 'xgq';
+        obj[str2] = 'ls';
+
+        console.log(obj);
+
+        console.log(obj[str])
+    </script>
+</body>
+</html>

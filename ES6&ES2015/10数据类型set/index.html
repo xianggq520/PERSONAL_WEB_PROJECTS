@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>数据集合-set</title>
+</head>
+<body>
+    <script>
+        // 特点  set中的数据无重复，所以可以用来去除重复数据
+
+        //创建集合
+        let set = new Set([1,2,3]);
+        console.log(set);
+        
+        let set1 = new Set([1,2,3]);
+        // size
+        let size = set1.size;
+        console.log(size);
+        //添加元素
+        set1.add(4);
+        
+        //键值集合keys()
+        let keys = set.keys();
+        console.log(keys);
+         
+        console.log(keys.next()); 
+
+        //值集合values()
+        let values = set.values();
+        console.log(values);
+
+        //删除元素
+        let isDel = set1.delete(2);
+        console.log(isDel);
+
+        // has
+        let has = set1.has(1);
+        console.log(has);
+
+        // 删除所有元素
+        //set1.clear();
+        console.log(set1);
+
+        //遍历
+        set1.forEach((value, index) => {
+            console.log(value, index);
+        })
+    
+    </script>
+</body>
+</html>

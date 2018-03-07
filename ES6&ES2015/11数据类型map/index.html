@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>数据集合-map</title>
+</head>
+<body>
+    <script>
+        // 特点  map的键值不局限于字符串，可以是任何类型，并且map中也只能存不重复数据
+        
+
+        //创建集合map
+        let map0 = new Map();
+        console.log(map0);
+        
+        let obj1 = {a:1};
+        let obj2 = {a:2};
+        let map = new Map([
+            ['name', '张三'],
+            ['age', 13],
+            ['sex', '男'],
+            [obj1, 'obj1'],
+            [obj2, [1,2,3]]
+        ]);
+        console.log(map);
+        // size
+        console.log(map.size);
+
+        //sit
+        map.set([2,2], {name:2, age:2});
+        console.log(map);
+
+        //不能采用map[prop]的方式来新增map集合数据
+        map[obj1] = {name: 'map[obj1]'};  //相当于 map[obj1.toString()] = {name: 'map[obj1]'}; =====> map['[object Object]'] = {name: 'map[obj1]'}; 
+        console.log(map, "??");
+        map[obj2] = {name: 'map[obj2]'};
+        console.log(map, "??");
+
+        //get
+        let value = map.get(obj2);
+        console.log(value);
+
+        let val2 = map[obj1];
+        console.log(val2 , "?");
+
+        //delete
+        map.delete(obj2);
+        console.log(map);
+
+        //has
+        let has = map.has(obj1);
+        console.log(has);
+
+        //clear
+        //map.clear();
+        console.log(map);
+
+        //keys 
+        let keys = map.keys();
+        let values = map.values();
+        let entries = map.entries();
+
+        console.log(keys);
+        console.log(values);
+        console.log(entries);
+
+        //遍历
+        map.forEach((value, index) => {
+            console.log(value, index);
+        })
+
+    </script>
+</body>
+</html>

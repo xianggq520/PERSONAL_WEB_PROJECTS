@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById("canvas");
+        const context = canvas.getContext("2d");
+        canvas.width = 1000;
+        canvas.height = 600;
+        canvas.style.backgroundColor = "#000";
+
+        class Ball {
+            constructor(x, y, color){
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.r = 40;
+            }
+
+            render(){
+                context.save();
+                context.beginPath();
+                context.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                context.fillStyle = this.color;
+                context.fill();
+                context.restore();
+            }
+        }
+
+        class MoveBall extends Ball {
+            constructor(x, y, color) {
+                super(x, y, color);
+
+                this.dx = Math.pow(-1, Math.floor(Math.random() * 2)) * Math.floor(Math.random()*2); 
+                this.dy = Math.pow(-1, Math.floor(Math.random() * 2)) * Math.floor(Math.random()*2); 
+                this.dr = 1 + Math.floor(Math.random()*3);
+
+
+            }
+
+            update(){
+                this.x += this.dx;
+                this.y += this.dy;
+                this.r -= this.dr;
+                if(this.r < 0){
+                    this.r = 0;
+                } 
+                this.render();
+            }
+
+        } 
+
+        let ballArr = [];
+        let colors = ['red', 'blue', '#ca5959', '#15881994', '#cee45494', '#e29e2094'];
+        let e;
+
+        canvas.addEventListener('mousemove', (e) => {
+            e = e || event;
+            ballArr.push(new MoveBall(e.offsetX, e.offsetY, colors[Math.floor(Math.random()*(colors.length - 1))]));
+        })
+
+        setInterval(()=>{
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            ballArr.forEach((item, index)=>{
+                item.update();
+            })
+        }, 30);
+        
+    </script>
+</body>
+</html>
