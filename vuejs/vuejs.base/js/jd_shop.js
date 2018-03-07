@@ -1,3 +1,25 @@
+
+
+
+
+
+
+const routes = [
+    {
+        path:"/"
+        
+
+    }
+];
+
+
+
+
+
+
+
+
+
 new Vue({
     data:{
         msg:"京东购物车"

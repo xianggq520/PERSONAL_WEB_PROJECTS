@@ -1,0 +1,91 @@
+/*--存放公共的样式--*/
+*,
+::before,
+::after {
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    /*清除移动端tab产生的高亮状态   transparent透明*/
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: "Microsoft YaHei UI", sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+
+ol,ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+textarea, input {
+    border: none;
+    outline: none;
+    /*针对iOS系统 取出扁平化效果*/
+    -webkit-appearance: none;
+}
+
+/*清除浮动*/
+.clearfix::before,
+.clearfix::after {
+    content: "";
+    display: block;
+    height: 0;
+    line-height: 0;
+    visibility: hidden;
+    clear: both;
+}
+
+/*抽取统一的前缀的类*/
+[class^="icon_"]{
+    background:url(../images/home/nav/sprites.png) no-repeat;
+    background-size:200px 200px;
+    -webkit-background-size:200px 200px;
+}
+
+
+/*头部导航栏*/
+#header {
+    width: 100%;
+    height: 44px;
+    background: url(../images/category/header/header-bg.png);
+    background-size: 1px 44px;
+    -webkit-background-size: 1px 44px;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#header a {
+    width: 44px;
+    height: 44px;
+    padding: 11px;
+    position: absolute;
+    top: 0;
+    -webkit-background-origin: content-box;
+    background-origin: content-box;
+    -webkit-background-clip: content-box;
+    background-clip: content-box;
+}
+
+#header .icon_back {
+    background-position: -21px 0;
+    left: 0;
+}
+
+#header .icon_menu {
+    background-position: -60px 0;
+    right: 0;
+}
+
+
+
+
