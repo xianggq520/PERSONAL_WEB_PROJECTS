@@ -1,0 +1,14 @@
+{
+  "name": "vuejs.base",
+  "version": "1.0.0",
+  "description": "vue.js base api learning project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "vue.js": "^0.3.2"
+  }
+}
