@@ -22,7 +22,7 @@
             </div>
             <!--订单列表-->
             <div id="orderList">
-                <section class="order" v-for="shop in allShopList">
+                <section class="order" v-for="shop in allShopList" v-if="shop.shopList.length > 0">
                     <div class="title">
                         <span class="checkBox" @click="toggleSelectShop(shop)" :checked="shop.selected"></span>
                         <img :src="shop.shopImage">
@@ -43,11 +43,11 @@
                                      
                                     <div class="description_bottom">
                                         <div class="number">
-                                            <span> - </span>
+                                            <span @click="reduceCount(item)"> - </span>
                                                 <input type="tel" v-model="item.mount">
-                                            <span> + </span>
+                                            <span @click="increaseCount(item)"> + </span>
                                         </div>
-                                        <div class="delete">
+                                        <div class="delete" @click="deleteItem(shop.shopList, item)">
                                             <span></span>
                                             <span></span>
                                         </div>
@@ -70,7 +70,15 @@
 
             <div class="fixBar" name="checkgroup" id="fixBarBot">
                 <i class="select_btn" v-on:click="selectAll()" :selected="isAllSelected">全选</i>
-                <div class="total" id="totalConfirmDiv"><p>总计：<strong id="totalPrice">¥1049.00</strong><small><span id="totalBackMoney">总额¥1149.00 立减¥100.00</span></small></p><a href="javascript:;" class="buy buyJs" attr-tag="confirmEve">去结算<em attr-tag="confirmEve" id="totalNum" totalnum="3">(3件)</em></a></div>
+                <div class="total" id="totalConfirmDiv">
+                    <p>
+                        总计：<strong id="totalPrice">{{totalFee|moneyformat}}</strong>
+                        <small><span id="totalBackMoney">总额{{totalFee|moneyformat}} 立减¥100.00</span></small>
+                    </p>
+                    <a href="javascript:;" class="buy buyJs" attr-tag="confirmEve">
+                        去结算<em>(<i v-text="totalCount"></i>件)</em>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -78,26 +86,26 @@
     <script src="js/vue-router.js"></script>
     <script>
         let allShopList = [
-            {shopName: "京东自营", shopList:[
-                {name:"【京东超市】路易拉菲2009珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {name:"【京东超市】路易拉菲2010珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {name:"【京东超市】路易拉菲2011珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {name:"【京东超市】路易拉菲2012珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {name:"【京东超市】路易拉菲2013珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
+            {shopId:0, shopName: "京东自营", shopList:[
+                {id:1, name:"【京东超市】路易拉菲2009珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
+                {id:2, name:"【京东超市】路易拉菲2010珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
+                {id:3,name:"【京东超市】路易拉菲2011珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
+                {id:4,name:"【京东超市】路易拉菲2012珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
+                {id:5,name:"【京东超市】路易拉菲2013珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
             ], shopImage:"images/cart/buy-logo.png"},
-            {shopName: "shop A", shopList:[
-                {name:"【shop A】路易拉菲2009珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {name:"【shop A】路易拉菲2010珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {name:"【shop A】路易拉菲2011珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {name:"【shop A】路易拉菲2012珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {name:"【shop A】路易拉菲2013珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
+            {shopId:1, shopName: "shop A", shopList:[
+                {id:1,name:"【shop A】路易拉菲2009珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
+                {id:2,name:"【shop A】路易拉菲2010珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
+                {id:3,name:"【shop A】路易拉菲2011珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
+                {id:4,name:"【shop A】路易拉菲2012珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
+                {id:5,name:"【shop A】路易拉菲2013珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
             ], shopImage:"images/cart/buy-logo.png"},
-            {shopName: "shop B", shopList:[
-                {name:"【shop B】路易拉菲2009珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {name:"【shop B】路易拉菲2010珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {name:"【shop B】路易拉菲2011珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {name:"【shop B】路易拉菲2012珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {name:"【shop B】路易拉菲2013珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
+            {shopId:2, shopName: "shop B", shopList:[
+                {id:1,name:"【shop B】路易拉菲2009珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
+                {id:2,name:"【shop B】路易拉菲2010珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
+                {id:3,name:"【shop B】路易拉菲2011珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
+                {id:4,name:"【shop B】路易拉菲2012珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
+                {id:5,name:"【shop B】路易拉菲2013珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
             ], shopImage:"images/cart/buy-logo.png"}
         ];
  
@@ -115,7 +123,8 @@
             data:{
                 allShopList : allShopList,
                 isAllSelected : false,
-                totalFee: 0
+                totalFee: 0,
+                totalCount: 0
             },
 
             /*filters : {
@@ -132,7 +141,7 @@
                         this.$set(shop, "selected", true);
                     } else {
                         shop.selected = !shop.selected;
-                    }
+                    } 
                     
                     shop.shopList.forEach(item => {
                         
@@ -148,6 +157,7 @@
                 },
                 
                 toggleSelectItem(shop, item){
+
                     if(typeof item.selected == 'undefined'){
                         this.$set(item, "selected", true);
                     } else {
@@ -171,7 +181,34 @@
                     this.isSelectedAll(); 
                 },
 
+                deleteItem(list, targetItem){
+                    if(list.length < 0) return;
+                    for (let i = 0; i < list.length; i++) {
+                        if (targetItem.id == list[i].id) {
+                            list.splice(i, 1);
+                            break;
+                        }
+                    }
+                    this.isSelectedAll(); 
+                },
+
+                reduceCount(item){
+                    if (item.mount > 1) {
+                        item.mount --;
+                        this.isSelectedAll();
+                    }
+                },
+
+                increaseCount(item){
+                    if (item.mount < 5) {
+                        item.mount ++;
+                        this.isSelectedAll();
+                    }
+                },
+
                 selectAll(){
+                    let totalFee = 0;
+                    let totalCount = 0;
                     this.isAllSelected = !this.isAllSelected;
                     this.allShopList.forEach(shop => {
                         shop.selected = this.isAllSelected;
@@ -181,24 +218,39 @@
                             } else {
                                 item.selected = this.isAllSelected;
                             }
-                            
+                            if (item.selected) {
+                                totalFee += item.price * item.mount;
+                                totalCount += item.mount;
+                            } else {
+                                totalFee -= item.price * item.mount;
+                                totalCount -= item.mount;
+                            }
                         })
                     });
+                    this.totalCount = totalCount;
+                    this.totalFee = totalFee;
                 },
 
                 isSelectedAll(){
+                    let totalFee = 0;
                     let isAllSelected = true; 
+                    let totalCount = 0;
                     this.allShopList.forEach(shop => {
                         if (!shop.selected) {
                             isAllSelected = false;
-                        }
+                        } 
                         shop.shopList.forEach(item => {
                             if (!item.selected) {
                                 isAllSelected = false;
+                            } else {
+                                totalFee += item.price * item.mount;
+                                totalCount += item.mount;
                             }
                         })
                     });
 
+                    this.totalCount = totalCount;
+                    this.totalFee = totalFee;
                     this.isAllSelected = isAllSelected;
                 }
 

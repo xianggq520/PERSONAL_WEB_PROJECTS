@@ -87,6 +87,8 @@ textarea, input {
 }
 
 .main_wrap {
+    max-width: 540px;
+    margin: 0 auto;
     padding: 0 0 50px 0;
 }
 
