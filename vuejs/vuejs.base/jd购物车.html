@@ -209,7 +209,14 @@
                 selectAll(){
                     let totalFee = 0;
                     let totalCount = 0;
+
+                    if (this.isAllSelected) {
+                        totalFee = this.totalFee;
+                        totalCount = this.totalCount;
+                    }
+
                     this.isAllSelected = !this.isAllSelected;
+                    
                     this.allShopList.forEach(shop => {
                         shop.selected = this.isAllSelected;
                         shop.shopList.forEach(item => {
