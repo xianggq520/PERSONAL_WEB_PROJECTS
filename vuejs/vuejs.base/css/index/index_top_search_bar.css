@@ -1,0 +1,165 @@
+
+.mod_searchbar {
+    position: relative;
+}
+
+.mod_searchbar {
+    position: relative;
+    z-index: 310;
+}
+
+.mod_searchbar.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    max-width: 540px;
+    margin: 0 auto;
+}
+
+.mod_searchbar.skin_2 {
+    background-color: #fff;
+}
+
+.mod_searchbar_inner {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    height: 50px;
+}
+
+.mod_searchbar.skin_1 .mod_searchbar_cate {
+    position: relative;
+}
+
+.mod_searchbar_cate {
+    display: block;
+    width: 50px;
+    height: 50px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+
+.mod_searchbar.skin_1 .mod_searchbar_cate::before {
+    position: absolute;
+    content: "";
+    width: 30px;
+    height: 30px;
+    left: 50%;
+    top: 50%;
+    margin: -15px 0 0 -15px;
+    border-radius: 30px;
+    background-color: hsla(0,0%,100%,.8);
+}
+
+.mod_searchbar.skin_1 .mod_searchbar_cate::after {
+    background-size: 15px;
+}
+
+.mod_searchbar_cate::after {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Cpath fill=%22%23999%22 d=%22M2 4h36a2 2 0 0 1 0 4H2a2 2 0 0 1 0-4zm0 14h36a2 2 0 0 1 0 4H2a2 2 0 0 1 0-4zm0 14h36a2 2 0 0 1 0 4H2a2 2 0 0 1 0-4z%22/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.mod_searchbar.skin_1 .mod_searchbar_form {
+    background-color: rgba(250,250,255,.8);
+}
+
+.mod_searchbar_cate + .mod_searchbar_form {
+    margin-left: 0;
+}
+
+.mod_searchbar_form {
+	-webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 30px;
+    background-color: #f7f7f7;
+    margin: 0 15px;
+    padding: 0 30px;
+    position: relative;
+}
+
+.mod_searchbar.skin_1 .mod_searchbar_cate::before, .mod_searchbar.skin_1 .mod_searchbar_form {
+    box-shadow: 0 1px 4px rgba(0,0,0,.1);
+}
+
+.mod_searchbar_form::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Cpath fill=%22%23999%22 fill-rule=%22evenodd%22 d=%22M34 33c0 .5-.3 1-.7 1-.5 0-1 0-1.2-.6L27.7 29c-5.3 4.5-13.3 4-18-1-5-5.2-4.7-13.2.2-18.2 5-5 13-5 18-.3 5.2 4.8 5.7 12.8 1 18l4.6 4.6c.4.3.7.7.7 1zM19 8C13 8 8 13 8 19s5 11 11 11 11-5 11-11S25 8 19 8z%22/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: 100%;
+    position: absolute;
+    left: 8px;
+    top: 5px;
+}
+
+.mod_searchbar_text {
+    display: block;
+    width: 100%;
+    height: 30px;
+    font-size: 14px;
+    color: #999;
+}
+
+.mod_searchbar_text {
+    border: none;
+    background: none;
+    -webkit-appearance: textfield;
+    appearance: textfield;
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 0;
+}
+
+.mod_searchbar_clear {
+    display: none;
+    width: 30px;
+    height: 30px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Cpath fill=%22%23ccc%22 d=%22M20 35c-8.3 0-15-6.7-15-15S11.7 5 20 5s15 6.7 15 15-6.7 15-15 15zm5.7-20.7c-.2-.2-.5-.3-.7-.3-.3 0-.6 0-.7.3L20 18.6l-4.3-4.3c-.2-.2-.6-.3-1-.2-.3 0-.6.7-.6 1 0 .4 0 .8.6 1l4.3 4-4.4 4.6c-.4.4-.4 1 0 1.4.4.3 1 .3 1.4 0l4.2-4.4 4.3 4.2c.4.4 1 .4 1.4 0 .2-.4.2-1 0-1.4L21.2 20l4.3-4.3c.2-.2.3-.4.3-.7 0-.3 0-.5-.4-.7z%22/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.mod_searchbar_btn {
+    display: block;
+    width: 50px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 2px;
+    background-color: #e93b3d;
+    color: #fff;
+    box-shadow: 0 1px 2px rgba(233,59,61,.2);
+    margin-right: 15px;
+}

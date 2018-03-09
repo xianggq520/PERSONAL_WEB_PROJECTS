@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>search 输入框样式</title>
+	<style type="text/css">
+		input {
+			margin: 30px 0;
+		}
+
+		input[type=search] {
+			-webkit-appearance: textfield;
+			-webkit-box-sizing: border-box;
+		    outline: none;		
+		}
+
+		/* 隐藏删除按钮 */
+		input::-webkit-search-decoration,
+		input::-webkit-search-cancel-button {
+			display: none; 
+		}
+  
+
+  		input[type=search].input2 {
+			border: 1px solid #ccc;
+			padding:9px 10px 9px 32px;
+			width: 105px;
+
+			-webkit-border-radius: 10em;
+			-moz-border-radius: 10em;
+			border-radius: 10em;
+
+			-webkit-transition: all .5s;
+			-moz-transition: all .5s;
+			transition: all .5s;
+
+  		}
+
+  		input[type=search].input2:focus {
+			width: 200px;
+			background-color: #fff;
+			border-color: #6dcff6;
+
+			-webkit-box-shadow: 0 0 5px rgba(109,207,246,.5);
+			-moz-box-shadow: 0 0 5px rgba(109,207,246,.5);
+			box-shadow: 0 0 5px rgba(109,207,246,.5);
+  		}
+
+
+  		input[type=search].input3 {
+			width: 15px;
+			padding-left: 10px
+			color:transparent;
+			cursor:pointer;
+
+  		}
+
+  		input[type=search].input3:hover {
+			background-color: #fff;
+			
+  		}
+
+  		input[type=search].input3:focus {
+  			width:120px;
+  			padding-left:32px;
+  			color:#000;
+  			background-color: #fff;
+  			cursor: auto;
+  		}
+
+	</style>
+</head>
+<body>
+
+<form>
+
+	<input type="search" placeholder="search something...">
+
+	<br>
+
+	<input class="input2" type="search" placeholder="search something...">
+	
+	<br>
+
+	<input class="input3" type="search" placeholder="search something...">
+</form>
+
+</body>
+</html>

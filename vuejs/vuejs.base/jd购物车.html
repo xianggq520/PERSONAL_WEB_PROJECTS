@@ -109,14 +109,14 @@
             ], shopImage:"images/cart/buy-logo.png"}
         ];
  
-        /*let filters = {
+        let filters = {
             moneyformat(value){
-                return "￥" + value.tofixed(2);
+                return "￥" + value.toFixed(2);
             }
-        }*/
-        Vue.filter('moneyformat', function (value) {
+        }
+        /*Vue.filter('moneyformat', function (value) {
             return "￥" + value.toFixed(2);             
-        });
+        });*/
 
         let vm = new Vue({
             el:"#app",
@@ -127,11 +127,7 @@
                 totalCount: 0
             },
 
-            /*filters : {
-                moneyformat(value){
-                    return "￥" + value.toFixed(2);
-                }
-            }, */
+            filters, 
 
             methods:{
                  
