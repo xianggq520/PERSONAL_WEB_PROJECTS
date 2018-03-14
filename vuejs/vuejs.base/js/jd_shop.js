@@ -6,8 +6,8 @@
 
 const routes = [
     {
-        path:"/"
-        
+        path: "/"
+
 
     }
 ];
@@ -21,7 +21,7 @@ const routes = [
 
 
 new Vue({
-    data:{
-        msg:"京东购物车"
+    data: {
+        msg: "京东购物车"
     }
 }).$mount("#app")

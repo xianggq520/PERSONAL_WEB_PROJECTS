@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/cart.css">
 </head>
+
 <body>
     <div id="app">
         <div class="main_wrap">
@@ -35,16 +37,18 @@
                                 <span class="checkBox" @click="toggleSelectItem(shop, item)" :checked="item.selected"></span>
                             </div>
                             <div class="right">
-                                <a href=""><img :src="item.image" alt=""></a>
+                                <a href="">
+                                    <img :src="item.image" alt="">
+                                </a>
                                 <div class="description">
                                     <p v-text="item.name"></p>
                                     <!-- <span v-text="item.price | moneyformat(item.price)"></span> -->
-                                    <span >{{item.price | moneyformat(item.price)}}</span>
-                                     
+                                    <span>{{item.price | moneyformat(item.price)}}</span>
+
                                     <div class="description_bottom">
                                         <div class="number">
                                             <span @click="reduceCount(item)"> - </span>
-                                                <input type="tel" v-model="item.mount">
+                                            <input type="tel" v-model="item.mount">
                                             <span @click="increaseCount(item)"> + </span>
                                         </div>
                                         <div class="delete" @click="deleteItem(shop.shopList, item)">
@@ -63,7 +67,7 @@
             <div class="panel">
                 <div class="panelBox clearfix jump">
                     <span>你确认要删除这个商品吗？</span>
-                    <a href="javascript:;" >取消</a>
+                    <a href="javascript:;">取消</a>
                     <a href="javascript:;">确定</a>
                 </div>
             </div>
@@ -72,11 +76,16 @@
                 <i class="select_btn" v-on:click="selectAll()" :selected="isAllSelected">全选</i>
                 <div class="total" id="totalConfirmDiv">
                     <p>
-                        总计：<strong id="totalPrice">{{totalFee|moneyformat}}</strong>
-                        <small><span id="totalBackMoney">总额{{totalFee|moneyformat}} 立减¥100.00</span></small>
+                        总计：
+                        <strong id="totalPrice">{{totalFee|moneyformat}}</strong>
+                        <small>
+                            <span id="totalBackMoney">总额{{totalFee|moneyformat}} 立减¥100.00</span>
+                        </small>
                     </p>
                     <a href="javascript:;" class="buy buyJs" attr-tag="confirmEve">
-                        去结算<em>(<i v-text="totalCount"></i>件)</em>
+                        去结算
+                        <em>(
+                            <i v-text="totalCount"></i>件)</em>
                     </a>
                 </div>
             </div>
@@ -86,31 +95,37 @@
     <script src="js/vue-router.js"></script>
     <script>
         let allShopList = [
-            {shopId:0, shopName: "京东自营", shopList:[
-                {id:1, name:"【京东超市】路易拉菲2009珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {id:2, name:"【京东超市】路易拉菲2010珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {id:3,name:"【京东超市】路易拉菲2011珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {id:4,name:"【京东超市】路易拉菲2012珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {id:5,name:"【京东超市】路易拉菲2013珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-            ], shopImage:"images/cart/buy-logo.png"},
-            {shopId:1, shopName: "shop A", shopList:[
-                {id:1,name:"【shop A】路易拉菲2009珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {id:2,name:"【shop A】路易拉菲2010珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {id:3,name:"【shop A】路易拉菲2011珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {id:4,name:"【shop A】路易拉菲2012珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {id:5,name:"【shop A】路易拉菲2013珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-            ], shopImage:"images/cart/buy-logo.png"},
-            {shopId:2, shopName: "shop B", shopList:[
-                {id:1,name:"【shop B】路易拉菲2009珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {id:2,name:"【shop B】路易拉菲2010珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {id:3,name:"【shop B】路易拉菲2011珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {id:4,name:"【shop B】路易拉菲2012珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-                {id:5,name:"【shop B】路易拉菲2013珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount:1, price: 102, image:"images/cart/detail1.jpg"},
-            ], shopImage:"images/cart/buy-logo.png"}
+            {
+                shopId: 0, shopName: "京东自营", shopList: [
+                    { id: 1, name: "【京东超市】路易拉菲2009珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount: 1, price: 102, image: "images/cart/detail1.jpg" },
+                    { id: 2, name: "【京东超市】路易拉菲2010珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount: 1, price: 102, image: "images/cart/detail1.jpg" },
+                    { id: 3, name: "【京东超市】路易拉菲2011珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount: 1, price: 102, image: "images/cart/detail1.jpg" },
+                    { id: 4, name: "【京东超市】路易拉菲2012珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount: 1, price: 102, image: "images/cart/detail1.jpg" },
+                    { id: 5, name: "【京东超市】路易拉菲2013珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount: 1, price: 102, image: "images/cart/detail1.jpg" },
+                ], shopImage: "images/cart/buy-logo.png"
+            },
+            {
+                shopId: 1, shopName: "shop A", shopList: [
+                    { id: 1, name: "【shop A】路易拉菲2009珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount: 1, price: 102, image: "images/cart/detail1.jpg" },
+                    { id: 2, name: "【shop A】路易拉菲2010珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount: 1, price: 102, image: "images/cart/detail1.jpg" },
+                    { id: 3, name: "【shop A】路易拉菲2011珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount: 1, price: 102, image: "images/cart/detail1.jpg" },
+                    { id: 4, name: "【shop A】路易拉菲2012珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount: 1, price: 102, image: "images/cart/detail1.jpg" },
+                    { id: 5, name: "【shop A】路易拉菲2013珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount: 1, price: 102, image: "images/cart/detail1.jpg" },
+                ], shopImage: "images/cart/buy-logo.png"
+            },
+            {
+                shopId: 2, shopName: "shop B", shopList: [
+                    { id: 1, name: "【shop B】路易拉菲2009珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount: 1, price: 102, image: "images/cart/detail1.jpg" },
+                    { id: 2, name: "【shop B】路易拉菲2010珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount: 1, price: 102, image: "images/cart/detail1.jpg" },
+                    { id: 3, name: "【shop B】路易拉菲2011珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount: 1, price: 102, image: "images/cart/detail1.jpg" },
+                    { id: 4, name: "【shop B】路易拉菲2012珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount: 1, price: 102, image: "images/cart/detail1.jpg" },
+                    { id: 5, name: "【shop B】路易拉菲2013珍酿原酒进口红酒男爵古堡干红葡萄酒 红酒整箱6支礼盒装", mount: 1, price: 102, image: "images/cart/detail1.jpg" },
+                ], shopImage: "images/cart/buy-logo.png"
+            }
         ];
- 
+
         let filters = {
-            moneyformat(value){
+            moneyformat(value) {
                 return "￥" + value.toFixed(2);
             }
         }
@@ -119,90 +134,90 @@
         });*/
 
         let vm = new Vue({
-            el:"#app",
-            data:{
-                allShopList : allShopList,
-                isAllSelected : false,
+            el: "#app",
+            data: {
+                allShopList: allShopList,
+                isAllSelected: false,
                 totalFee: 0,
                 totalCount: 0
             },
 
-            filters, 
+            filters,
 
-            methods:{
-                 
-                toggleSelectShop(shop){
+            methods: {
 
-                    if(typeof shop.selected == 'undefined'){
+                toggleSelectShop(shop) {
+
+                    if (typeof shop.selected == 'undefined') {
                         this.$set(shop, "selected", true);
                     } else {
                         shop.selected = !shop.selected;
-                    } 
-                    
+                    }
+
                     shop.shopList.forEach(item => {
-                        
-                        if(typeof item.selected == 'undefined'){
+
+                        if (typeof item.selected == 'undefined') {
                             this.$set(item, "selected", shop.selected);
                         } else {
                             item.selected = shop.selected;
                         }
 
                     });
-                     
-                    this.isSelectedAll(); 
-                },
-                
-                toggleSelectItem(shop, item){
 
-                    if(typeof item.selected == 'undefined'){
+                    this.isSelectedAll();
+                },
+
+                toggleSelectItem(shop, item) {
+
+                    if (typeof item.selected == 'undefined') {
                         this.$set(item, "selected", true);
                     } else {
                         item.selected = !item.selected;
                     }
-                    
+
                     let isAllSelected = true;
 
                     shop.shopList.forEach(el => {
-                        if(!el.selected){
+                        if (!el.selected) {
                             isAllSelected = false;
                         }
                     })
 
-                    if(typeof shop.selected == 'undefined'){
+                    if (typeof shop.selected == 'undefined') {
                         this.$set(shop, "selected", isAllSelected);
                     } else {
                         shop.selected = isAllSelected;
                     }
-                    
-                    this.isSelectedAll(); 
+
+                    this.isSelectedAll();
                 },
 
-                deleteItem(list, targetItem){
-                    if(list.length < 0) return;
+                deleteItem(list, targetItem) {
+                    if (list.length < 0) return;
                     for (let i = 0; i < list.length; i++) {
                         if (targetItem.id == list[i].id) {
                             list.splice(i, 1);
                             break;
                         }
                     }
-                    this.isSelectedAll(); 
+                    this.isSelectedAll();
                 },
 
-                reduceCount(item){
+                reduceCount(item) {
                     if (item.mount > 1) {
-                        item.mount --;
+                        item.mount--;
                         this.isSelectedAll();
                     }
                 },
 
-                increaseCount(item){
+                increaseCount(item) {
                     if (item.mount < 5) {
-                        item.mount ++;
+                        item.mount++;
                         this.isSelectedAll();
                     }
                 },
 
-                selectAll(){
+                selectAll() {
                     let totalFee = 0;
                     let totalCount = 0;
 
@@ -212,11 +227,11 @@
                     }
 
                     this.isAllSelected = !this.isAllSelected;
-                    
+
                     this.allShopList.forEach(shop => {
                         shop.selected = this.isAllSelected;
                         shop.shopList.forEach(item => {
-                            if(typeof item.selected == 'undefined'){
+                            if (typeof item.selected == 'undefined') {
                                 this.$set(item, "selected", this.isAllSelected);
                             } else {
                                 item.selected = this.isAllSelected;
@@ -234,14 +249,14 @@
                     this.totalFee = totalFee;
                 },
 
-                isSelectedAll(){
+                isSelectedAll() {
                     let totalFee = 0;
-                    let isAllSelected = true; 
+                    let isAllSelected = true;
                     let totalCount = 0;
                     this.allShopList.forEach(shop => {
                         if (!shop.selected) {
                             isAllSelected = false;
-                        } 
+                        }
                         shop.shopList.forEach(item => {
                             if (!item.selected) {
                                 isAllSelected = false;
@@ -259,10 +274,11 @@
 
 
             }
-            
+
         });
-    
-    
+
+
     </script>
 </body>
+
 </html>
