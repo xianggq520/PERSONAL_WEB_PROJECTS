@@ -364,7 +364,7 @@ export default {
       this.totalFee = totalFee;
       this.isAllSelected = isAllSelected;
     },
-    goBack(){
+    goBack() {
       this.$router.go(-1);
     }
   }
@@ -771,7 +771,7 @@ export default {
   width: 20px;
   height: 20px;
   margin-left: -10px;
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoBAMAAAB+0KVeAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAnUExURUxpcZmZmZqampqampubm5qamqioqJqampqampqampqamqGhoZmZmXRqFBEAAAAMdFJOUwDwRqiAagslwtY6FiGs6jgAAADlSURBVCjPY2CAgFKLiZLN4QzIgNvzDBhM2YAQY3M8IxxUlq5qeEYkAS6oeMYIwlA+IwQTYznTBWOuOOMA1WxzFGFSzGGIAcwHFRCCTDIGYNpHHNkhhUfAcmcUkAUh3MSjKE5miBED6W5AFeQA6ueWWYAqyHVwAwPLYQY0YOPAwHkIXVBnAkONALog43GGGAN0QeajDDYB6IKshxl6FNAFmU4wzClAF2Q/ySCTgC7IdhC7IFbtWC3C6iSsjsfqTawBgjXosAYy1ujAHnFYoxhrYsCebLAmMKxJEXuixZ68sWYE9CwDAH0nU0cSKDB5AAAAAElFTkSuQmCC);
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoBAMAAAB+0kveaaaabgdbtueaalgpc/xhBQAAAAFzUkdCAK7OHOkAAAAnUExURUxpcZmZmZqampqampubm5qamqioqJqampqampqampqamqGhoZmZmXRqFBEAAAAMdFJOUwDwRqiAagslwtY6FiGs6jgAAADlSURBVCjPY2CAgFKLiZLN4QzIgNvzDBhM2YAQY3M8IxxUlq5qeEYkAS6oeMYIwlA+IwQTYznTBWOuOOMA1WxzFGFSzGGIAcwHFRCCTDIGYNpHHNkhhUfAcmcUkAUh3MSjKE5miBED6W5AFeQA6ueWWYAqyHVwAwPLYQY0YOPAwHkIXVBnAkONALog43GGGAN0QeajDDYB6IKshxl6FNAFmU4wzClAF2Q/ySCTgC7IdhC7IFbtWC3C6iSsjsfqTawBgjXosAYy1ujAHnFYoxhrYsCebLAmMKxJEXuixZ68sWYE9CwDAH0nU0cSKDB5AAAAAElFTkSuQmCC);
   background-size: 20px;
 }
 .fixBar .total {

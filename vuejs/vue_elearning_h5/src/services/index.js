@@ -6,7 +6,7 @@ let instance = axios.create({
     baseURL: process.env.baseURL,
     timeout: 5000,
     withCredentials: true,
-    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    headers: { 'X-Requested-With': 'X-Requested-With' }
     //...
 });
 
