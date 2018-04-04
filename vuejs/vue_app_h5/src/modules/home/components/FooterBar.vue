@@ -3,7 +3,7 @@
         <a class="nav_index">购物</a>
         <a class="nav_search" reported="1">分类</a>
         <a class="nav_newsfeed" reported="1">购物圈</a>
-        <a class="nav_shopcart" reported="1">购物车</a>
+        <router-link class="nav_shopcart" to="/shopcart">购物车</router-link>
         <a class="nav_me" reported="1">个人中心</a>
     </div>
 </template>

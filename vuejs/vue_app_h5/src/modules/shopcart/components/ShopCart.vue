@@ -1,7 +1,7 @@
 <template>
     <div class="main_wrap">
         <header id="header">
-            <a href="javascript:;" class="icon_back"></a>
+            <a href="javascript:;" class="icon_back" @click="goBack()"></a>
             <p>购物车</p>
             <a href="javascript:;" class="icon_menu"></a>
         </header>
@@ -363,6 +363,9 @@ export default {
       this.totalCount = totalCount;
       this.totalFee = totalFee;
       this.isAllSelected = isAllSelected;
+    },
+    goBack() {
+      this.$router.go(-1);
     }
   }
 };
