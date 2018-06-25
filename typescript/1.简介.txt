@@ -1,0 +1,32 @@
+1.1Typescript诞生
+
+TypeScript是一种由微软开发的自由和开源的编程语言。
+它是JavaScript的一个超集，而且本质上向这个语言添加了可选的静态类型和基于类的面向对象编程。
+
+TypeScript扩展了JavaScript的句法，所以任何现有的JavaScript程序可以不加改变的在TypeScript下工作。
+TypeScript是为大型应用之开发而设计，而编译时它产生JavaScript以确保兼容性(可以通过typescript编译器tsc将typescript编译成javascript)。
+
+
+1.2Typescript 特性
+
+TypeScript 是一种给 JavaScript 添加特性的语言扩展。
+
+TypeScript提供了诸如以下特性：
+
+a.类型批注和编译时类型检查
+    TypeScript 通过类型批注提供静态类型以在编译时启动类型检查。这是可选的，而且可以被忽略而使用
+    JavaScript 常规的动态类型。对于基本类型的批注是 number, bool 和 string。而弱或动态类型的结构则是 any 类型。
+    当类型没有给出时，TypeScript 编译器利用类型推断以推断类型。如果由于缺乏声明，没有类型可以被推
+    断出，那么它就会默认为是动态的 any 类型。
+b.类
+    TypeScript 支持集成了可选的类型批注支持的 ECMAScript 6 的类。
+c.接口
+d.模块
+e.lambda 函数
+f.对 ECMAScript 6 的支持
+    TypeScript 增加了对为即将到来的 ECMAScript 6 标准所建议的特性的支持。
+    类 (以及继承) 模块 Arrow functions
+
+等等
+
+

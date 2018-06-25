@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>块元素上下左右居中</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .wraper {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            background-color:blanchedalmond;
+            overflow: hidden;
+        }
+
+        .auto-center {
+            display: inline-block;
+            width: 200px;
+            vertical-align: middle;
+            border: 1px solid #dedede;
+            overflow: hidden;
+            font-size: 18px
+        }
+    </style>
+</head>
+<body>
+    <div class="wraper">
+        <div class="auto-center">居中的元素</div>
+    </div>
+</body>
+</html>

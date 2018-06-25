@@ -1,0 +1,110 @@
+3.1 let和const
+
+    let和const是JavaScript里相对较新的变量声明方式。
+
+    const是对let的一个增强，它能阻止对一个变量再次赋值。
+
+
+
+3.2 var、let、const对比
+
+    var 声明的作用域规则，函数作用，变量提升
+
+    function f(shouldInitialize: boolean) {
+        if (shouldInitialize) {
+            var x = 10;
+        }
+
+        return x;
+    }
+
+    f(true);  // returns '10'
+    f(false); // returns 'undefined'
+
+
+    有些读者可能要多看几遍这个例子。 变量 x是定义在*if语句里面*，但是我们却可以在语句的外面访问它。 
+    
+    这是因为 var声明可以在包含它的函数，模块，命名空间或全局作用域内部任何位置被访问（我们后面会详细介绍），
+    包含它的代码块对此没有什么影响。 有些人称此为* var作用域或函数作用域*。 函数参数也使用函数作用域。
+
+    这些作用域规则可能会引发一些错误。 其中之一就是，多次声明同一个变量并不会报错：
+
+
+    function sumMatrix(matrix: number[][]) {
+        var sum = 0;
+        for (var i = 0; i < matrix.length; i++) {
+            var currentRow = matrix[i];
+            for (var i = 0; i < currentRow.length; i++) {
+                sum += currentRow[i];
+            }
+        }
+
+        return sum;
+    }
+
+    这里很容易看出一些问题，里层的for循环会覆盖变量i，因为所有i都引用相同的函数作用域内的变量。
+
+
+
+    let 声明
+
+    let hello = "Hello!";
+
+    当用let声明一个变量，它使用的是词法作用域或块作用域。
+    
+    不同于使用 var声明的变量那样可以在包含它们的函数外访问，块作用域变量在包含它们的块或for循环之外是不能访问的。
+
+
+    function f(input: boolean) {
+        let a = 100;
+
+        if (input) {
+            // Still okay to reference 'a'
+            let b = a + 1;
+            return b;
+        }
+
+        // Error: 'b' doesn't exist here
+        return b;
+    }
+
+
+    在catch语句里声明的变量也具有同样的作用域规则。
+
+    try {
+        throw "oh no!";
+    }
+    catch (e) {
+        console.log("Oh well.");
+    }
+
+    // Error: 'e' doesn't exist here
+    console.log(e);
+
+
+    拥有块级作用域的变量的另一个特点是，它们不能在被声明之前读或写。 
+    虽然这些变量始终“存在”于它们的作用域里，但在直到声明它的代码之前的区域都属于 暂时性死区。
+    它只是用来说明我们不能在 let语句之前访问它们，幸运的是TypeScript可以告诉我们这些信息。
+
+    a++; // illegal to use 'a' before it's declared;
+    let a;
+
+
+    注意一点，我们仍然可以在一个拥有块作用域变量被声明前获取它。 
+    只是我们不能在变量声明前去调用那个函数。 
+    如果生成代码目标为ES2015，运行时会抛出一个错误；然而，现今TypeScript是不会报错的。
+
+    function foo() {
+        // okay to capture 'a'
+        return a;
+    }
+
+    // 不能在'a'被声明前调用'foo'
+    // 运行时应该抛出错误
+    foo();
+
+    let a;
+
+    let声明变量不能重复声明多次
+    let x = 10;
+    let x = 20; // 错误，不能在1个作用域里多次声明`x`

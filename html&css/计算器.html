@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .keybord-box {
+            width: 500px;
+            
+        }
+        .cell {
+            position: relative;
+            width: 21%;
+            margin: 2%;
+            padding-top: 21%;
+            /* padding的百分比是相对于宽度的，所以21%能形成一个正方形 */
+            border-radius: 100px;
+            font-size: 30px;
+            line-height: 110%;
+            float: left;
+            background: #333;
+            color: #f9f9f9;
+            cursor: pointer;
+        }
+        .col-2 {
+            width: 46%; 
+            
+        }
+        .cell-inner {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            transform: translateY(-50%);
+        }
+        .col-2 .cell-inner {
+            /* text-align: left; */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="keybord-box">
+        <div class="cell input-cell">
+            <div class="cell-inner">7</div>
+        </div>
+        <div class="cell input-cell">
+            <div class="cell-inner">8</div>
+        </div>
+        <div class="cell input-cell">
+            <div class="cell-inner">9</div>
+        </div>
+        <div class="cell input-cell">
+            <div class="cell-inner">x</div>
+        </div>
+    </div>
+    <div class="keybord-box">
+        <div class="cell input-cell">
+            <div class="cell-inner">4</div>
+        </div>
+        <div class="cell input-cell">
+            <div class="cell-inner">5</div>
+        </div>
+        <div class="cell input-cell">
+            <div class="cell-inner">6</div>
+        </div>
+        <div class="cell input-cell">
+            <div class="cell-inner">-</div>
+        </div>
+    </div>
+
+    <div class="keybord-box">
+        <div class="cell input-cell">
+            <div class="cell-inner">1</div>
+        </div>
+        <div class="cell input-cell">
+            <div class="cell-inner">2</div>
+        </div>
+        <div class="cell input-cell">
+            <div class="cell-inner">3</div>
+        </div>
+        <div class="cell input-cell">
+            <div class="cell-inner">+</div>
+        </div>
+    </div>
+
+    <div class="keybord-box">
+        <div class="cell input-cell col-2">
+            <div class="cell-inner">0</div>
+        </div>
+        <div class="cell input-cell">
+            <div class="cell-inner">.</div>
+        </div>
+        <div class="cell input-cell">
+            <div class="cell-inner">=</div>
+        </div>
+    </div>
+</body>
+
+</html>
